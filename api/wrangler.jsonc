@@ -25,6 +25,19 @@
 			"database_id": "REPLACE_WITH_D1_ID",
 			"migrations_dir": "./drizzle"
 		}
+	],
+	"browser": {
+		"binding": "BROWSER"
+	},
+	"ai": {
+		"binding": "AI"
+	},
+	"workflows": [
+		{
+			"name": "module-run",
+			"binding": "MODULE_RUN_WF",
+			"class_name": "ModuleRunWorkflow"
+		}
 	]
 	/**
 	 * Smart Placement

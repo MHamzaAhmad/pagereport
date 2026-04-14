@@ -1,4 +1,2 @@
-import type { reports } from "@/domain/schema";
-
-export type Report = typeof reports.$inferSelect;
-export type NewReport = typeof reports.$inferInsert;
+export type { ModuleRun, NewModuleRun } from "@/domain/models/module-run";
+export type { NewReport, Report } from "@/domain/models/report";

@@ -16,6 +16,7 @@
 		"db:studio": "drizzle-kit studio"
 	},
 	"dependencies": {
+		"@cloudflare/puppeteer": "^1.0.4",
 		"@hono/zod-validator": "^0.7.6",
 		"drizzle-orm": "^0.45.2",
 		"hono": "^4.12.12",

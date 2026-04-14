@@ -1,13 +1,13 @@
-import { z } from "zod";
-
-export const createReportInput = z.object({
-	url: z.string().url(),
-});
-export type CreateReportInput = z.infer<typeof createReportInput>;
-
-export const reportResponse = z.object({
-	id: z.string(),
-	url: z.string(),
-	createdAt: z.string(),
-});
-export type ReportResponse = z.infer<typeof reportResponse>;
+export {
+	type ModuleRunResponse,
+	moduleRunResponse,
+	moduleRunStatusSchema,
+} from "@/domain/api/module-runs.dto";
+export {
+	type CreateReportInput,
+	createReportInput,
+	type ReportResponse,
+	type ReportWithModulesResponse,
+	reportResponse,
+	reportWithModulesResponse,
+} from "@/domain/api/reports.dto";
