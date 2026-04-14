@@ -1,0 +1,127 @@
+{
+	"$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"includes": ["src/**/*.ts", "src/**/*.tsx", "drizzle.config.ts"]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineWidth": 100
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double",
+			"semicolons": "always",
+			"trailingCommas": "all"
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"suspicious": {
+				"noExplicitAny": "error"
+			},
+			"style": {
+				"useImportType": "error",
+				"noRestrictedImports": {
+					"level": "off"
+				}
+			},
+			"correctness": {
+				"noUnusedImports": "error",
+				"noUnusedVariables": "error"
+			}
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["src/transport/**"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": {
+							"level": "error",
+							"options": {
+								"paths": {
+									"@/repos/*": "Transport layer must not import from repos. Use a service instead.",
+									"@/external/*": "Transport layer must not import from external. Use a service instead."
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"includes": ["src/services/**"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": {
+							"level": "error",
+							"options": {
+								"paths": {
+									"@/transport/*": "Services must not import from transport (wrong direction in onion architecture)."
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"includes": ["src/repos/**", "src/external/**"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": {
+							"level": "error",
+							"options": {
+								"paths": {
+									"@/services/*": "Infra layer must not import from services.",
+									"@/transport/*": "Infra layer must not import from transport.",
+									"@/repos/*": "Cross-infra imports are not allowed.",
+									"@/external/*": "Cross-infra imports are not allowed."
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"includes": ["src/domain/**"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": {
+							"level": "error",
+							"options": {
+								"paths": {
+									"@/repos/*": "Domain must not depend on infra.",
+									"@/external/*": "Domain must not depend on infra.",
+									"@/services/*": "Domain must not depend on services.",
+									"@/transport/*": "Domain must not depend on transport."
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	]
+}

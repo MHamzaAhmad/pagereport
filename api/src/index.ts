@@ -1,9 +1,14 @@
 import { Hono } from "hono";
+import { reportsRouter } from "@/transport/http/routes/reports";
+import type { AppEnv } from "@/transport/http/types";
+import { containerMiddleware } from "@/transport/middleware/container";
 
-const app = new Hono<{ Bindings: CloudflareBindings }>();
+const app = new Hono<AppEnv>();
 
-app.get("/message", (c) => {
-  return c.text("Hello Hono!");
-});
+app.use("*", containerMiddleware);
+
+app.get("/message", (c) => c.text("Hello Hono!"));
+
+app.route("/reports", reportsRouter);
 
 export default app;
