@@ -1,0 +1,61 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"ui": "stream",
+	"globalDependencies": ["**/.env.example", "tsconfig.json"],
+	"globalEnv": ["NODE_ENV"],
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"inputs": [
+				"$TURBO_DEFAULT$",
+				"!**/*.md",
+				"!**/*.test.ts",
+				"!.svelte-kit/**",
+				"!dist/**",
+				"!.wrangler/**"
+			],
+			"outputs": [".svelte-kit/**", "dist/**", ".wrangler/dist/**", "build/**"],
+			"env": ["PUBLIC_*"]
+		},
+		"lint": {
+			"dependsOn": ["^build"],
+			"inputs": [
+				"$TURBO_DEFAULT$",
+				"!**/*.md",
+				"!.svelte-kit/**",
+				"!dist/**",
+				"!.wrangler/**"
+			],
+			"outputs": []
+		},
+		"check": {
+			"dependsOn": ["^build"],
+			"inputs": [
+				"$TURBO_DEFAULT$",
+				"!**/*.md",
+				"!.svelte-kit/**",
+				"!dist/**",
+				"!.wrangler/**"
+			],
+			"outputs": []
+		},
+		"typecheck": {
+			"dependsOn": ["^build"],
+			"outputs": []
+		},
+		"format": {
+			"cache": false
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true
+		},
+		"deploy": {
+			"cache": false,
+			"dependsOn": ["build", "lint", "check"]
+		},
+		"clean": {
+			"cache": false
+		}
+	}
+}

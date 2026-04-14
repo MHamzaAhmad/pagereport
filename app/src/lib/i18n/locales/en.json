@@ -1,0 +1,70 @@
+{
+	"app": {
+		"name": "PageReport",
+		"tagline": "Understand what your landing page is really telling visitors."
+	},
+	"home": {
+		"title": "Audit your landing page in seconds",
+		"subtitle": "Enter a URL and we'll run a suite of clarity and conversion checks.",
+		"urlLabel": "Landing page URL",
+		"urlPlaceholder": "https://example.com",
+		"submit": "Analyze page",
+		"submitting": "Starting report…",
+		"urlInvalid": "Please enter a valid URL starting with http:// or https://",
+		"urlTooltip": "Paste the exact page a visitor would see — usually the one you link in ads."
+	},
+	"report": {
+		"header": {
+			"title": "Report",
+			"createdAt": "Created"
+		},
+		"backHome": "New report",
+		"loadError": "We couldn't load this report.",
+		"empty": "No modules have been run for this report yet."
+	},
+	"module": {
+		"status": {
+			"pending": "Queued",
+			"running": "Running",
+			"completed": "Ready",
+			"failed": "Failed"
+		},
+		"pendingHint": "Waiting for workers to pick this up.",
+		"runningHint": "Analyzing your page. This usually takes 30-60 seconds.",
+		"failed": {
+			"title": "This module failed",
+			"defaultMessage": "Something went wrong while running this check."
+		},
+		"unknown": {
+			"title": "Unknown module",
+			"description": "This module type isn't registered in the frontend yet."
+		}
+	},
+	"modules": {
+		"fiveSecTest": {
+			"label": "5-Second Test",
+			"description": "Simulates a first-time visitor's 5-second glance at your page.",
+			"fields": {
+				"summary": {
+					"label": "Overall impression",
+					"tooltip": "A short summary of what stands out in the first 5 seconds."
+				},
+				"whatItsAbout": {
+					"label": "What the page is about",
+					"tooltip": "What visitors think your page is selling or offering."
+				},
+				"primaryAction": {
+					"label": "Primary action",
+					"tooltip": "The single most obvious thing visitors feel they should do."
+				},
+				"impressions": {
+					"label": "Raw impressions",
+					"tooltip": "Unfiltered thoughts a first-time visitor might have."
+				}
+			}
+		}
+	},
+	"errors": {
+		"generic": "Something went wrong. Please try again."
+	}
+}
