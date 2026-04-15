@@ -86,10 +86,10 @@ export class CloudflareAIClient implements AIClient {
 					schema: jsonSchema,
 					strict: true,
 				},
-      },
-      chat_template_kwargs: {
-        enable_thinking: false
-      }
+			},
+			chat_template_kwargs: {
+				enable_thinking: false,
+			},
 		});
 		const text = extractText(raw);
 		const parsed: unknown = JSON.parse(text);

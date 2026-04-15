@@ -244,6 +244,38 @@
 				"heading": "Quick fixes"
 			}
 		},
+		"vibeCodedAudit": {
+			"label": "Is this page vibe-coded?",
+			"description": "Checks if your page reads as a generic AI-generated template — too many gradients, icon cards, or stock patterns.",
+			"verdict": {
+				"looks_custom": "Looks custom",
+				"possibly_vibe_coded": "Possibly vibe-coded",
+				"likely_vibe_coded": "Likely vibe-coded"
+			},
+			"confidence": {
+				"label": "Confidence",
+				"tooltip": "How sure we are about the verdict based on visual and structural signals."
+			},
+			"summary": {
+				"label": "Verdict",
+				"tooltip": "A brief, plain-language take on whether the page looks templated or custom."
+			},
+			"signalsHeading": "What we noticed",
+			"patterns": {
+				"gradient_overuse": "Gradient overuse",
+				"icon_overuse": "Too many icons",
+				"icon_card_grid": "Icon + card grids",
+				"generic_template_look": "Generic template look",
+				"emoji_bullets": "Emoji bullet lists",
+				"hero_sparkle_badge": "Hero sparkle badge",
+				"repetitive_sections": "Repetitive sections"
+			},
+			"severity": {
+				"low": "Minor",
+				"medium": "Notable",
+				"high": "Strong"
+			}
+		},
 		"fiveSecTest": {
 			"label": "5-Second Test",
 			"description": "Simulates a first-time visitor's 5-second glance at your page.",

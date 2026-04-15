@@ -1,7 +1,4 @@
-import {
-	CTA_AUDIT_SYSTEM_PROMPT,
-	HERO_VISION_PROMPT,
-} from "@/services/modules/cta-audit/prompt";
+import { CTA_AUDIT_SYSTEM_PROMPT, HERO_VISION_PROMPT } from "@/services/modules/cta-audit/prompt";
 import {
 	type CtaAuditResult,
 	type CtaHrefStatus,
