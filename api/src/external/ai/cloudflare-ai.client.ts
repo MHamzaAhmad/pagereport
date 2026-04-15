@@ -5,7 +5,7 @@ import type {
 	VisionDescribeOptions,
 } from "@/external/ai/ai.client";
 
-const VISION_MODEL = "@cf/google/gemma-4-26b-a4b-it";
+const VISION_MODEL = "@cf/meta/llama-3.2-11b-vision-instruct";
 const TEXT_MODEL = "@cf/zai-org/glm-4.7-flash";
 const DEFAULT_MAX_TOKENS = 1024;
 const DEFAULT_TEMPERATURE = 0.2;
