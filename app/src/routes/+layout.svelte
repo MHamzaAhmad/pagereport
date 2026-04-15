@@ -8,6 +8,7 @@
 	let { children }: { children: Snippet } = $props();
 
 	const canonicalUrl = $derived(`${page.url.origin}${page.url.pathname}`);
+	const ogImageUrl = $derived(`${page.url.origin}/og.png`);
 </script>
 
 <svelte:head>
@@ -26,10 +27,14 @@
 	<meta property="og:description" content={$_('seo.defaultDescription')} />
 	<meta property="og:url" content={canonicalUrl} />
 	<meta property="og:locale" content="en_US" />
+	<meta property="og:image" content={ogImageUrl} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
 
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={$_('seo.defaultTitle')} />
 	<meta name="twitter:description" content={$_('seo.defaultDescription')} />
+	<meta name="twitter:image" content={ogImageUrl} />
 </svelte:head>
 
 <div class="min-h-full">
