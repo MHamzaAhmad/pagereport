@@ -17,3 +17,40 @@
 17. **MUST**: When working on the UI we have to make sure that UI doesnt look generic. Besides UI we have to strongly focus on making the UX as easy as possible for a layman like dropshippers to understand. We have to provide the tooltip guides everywhere needed.
 18. **MUST**: we have to be platform agnostic, never hardcode anything that can make our platform otherwise
 19. **MUST**: Always use phosphor icons not the lucid ones
+
+## Monorepo layout
+
+This repo is a Bun workspace-based monorepo orchestrated by **Turborepo**:
+
+```
+pagereport/
+├── package.json        # root — workspaces, turbo scripts, single devDep: turbo
+├── turbo.json          # task pipeline definition
+├── bun.lock            # single root lockfile (do not create per-workspace locks)
+├── api/                # Hono on Cloudflare Workers (backend)
+└── app/                # SvelteKit on Cloudflare Workers (frontend)
+```
+
+### Running tasks
+
+Always run tasks from the **root** via the root scripts (which delegate to turbo). Do NOT `cd` into a workspace unless you really need to run something workspace-specific:
+
+- `bun run dev` — `turbo run dev` (runs both workspaces in parallel, persistent)
+- `bun run build` — `turbo run build` (cached)
+- `bun run lint` — `turbo run lint` (cached)
+- `bun run check` — `turbo run check` (cached)
+- `bun run typecheck` — `turbo run typecheck` (cached)
+- `bun run format` — `turbo run format` (not cached)
+- `bun run deploy` — `turbo run deploy` (depends on build + lint + check)
+
+To run a task in a single workspace: `bun run build --filter=app` (turbo filter syntax).
+
+Before handing off any change, **root-level** `bun run lint && bun run check && bun run build` must be green.
+
+### Workspace discipline
+
+- New shared code (types, utilities) that both `api` and `app` need should live in a new `packages/*` workspace. Do NOT reach across with relative imports like `../api/...`.
+- Each workspace keeps its own `package.json` with its own deps. Dependencies are added with `bun add <pkg> --filter=app` (or `--filter=api`).
+- Each workspace keeps its own `CLAUDE.md` with stack-specific rules. The root `CLAUDE.md` (this file) only holds rules that apply to both.
+- Never create per-workspace `bun.lock` files — Bun workspaces use a single root lockfile.
+- Each task in `turbo.json` must exist as a script in every workspace that should participate. Workspaces without the script are skipped silently.

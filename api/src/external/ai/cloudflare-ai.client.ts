@@ -5,18 +5,22 @@ const DEFAULT_MAX_TOKENS = 1024;
 const DEFAULT_TEMPERATURE = 0.2;
 
 interface VisionResponse {
-	readonly response?: string;
-	readonly description?: string;
+	readonly response?: unknown;
 }
 
 function extractText(raw: unknown): string {
-	if (typeof raw === "string") return raw;
 	if (raw && typeof raw === "object") {
-		const { response, description } = raw as VisionResponse;
-		if (typeof response === "string") return response;
-		if (typeof description === "string") return description;
+		const { response } = raw as VisionResponse;
+		if (typeof response === "string" && response.length > 0) return response;
+		if (response && typeof response === "object") return JSON.stringify(response);
 	}
-	throw new Error("Workers AI vision response did not contain text output");
+	throw new Error(`Workers AI vision response did not contain text output: ${JSON.stringify(raw)}`);
+}
+
+function toDataUri(image: Uint8Array): string {
+	let binary = "";
+	for (const byte of image) binary += String.fromCharCode(byte);
+	return `data:image/jpeg;base64,${btoa(binary)}`;
 }
 
 export class CloudflareAIClient implements AIClient {
@@ -28,8 +32,15 @@ export class CloudflareAIClient implements AIClient {
 		options: VisionDescribeOptions = {},
 	): Promise<string> {
 		const raw = await this.binding.run(VISION_MODEL, {
-			prompt,
-			image: Array.from(image),
+			messages: [
+				{
+					role: "user",
+					content: [
+						{ type: "text", text: prompt },
+						{ type: "image_url", image_url: { url: toDataUri(image) } },
+					],
+				},
+			],
 			max_tokens: options.maxTokens ?? DEFAULT_MAX_TOKENS,
 			temperature: options.temperature ?? DEFAULT_TEMPERATURE,
 		});

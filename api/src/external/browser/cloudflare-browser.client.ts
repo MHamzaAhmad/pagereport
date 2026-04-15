@@ -22,7 +22,7 @@ export class CloudflareBrowserClient implements BrowserClient {
 			const page = await browser.newPage();
 			await page.setViewport({ width, height, deviceScaleFactor: 1 });
 			await page.goto(url, { waitUntil, timeout });
-			const buffer = await page.screenshot({ type: "png", fullPage: false });
+			const buffer = await page.screenshot({ type: "jpeg", fullPage: false });
 			return new Uint8Array(buffer);
 		} finally {
 			await browser.close();
