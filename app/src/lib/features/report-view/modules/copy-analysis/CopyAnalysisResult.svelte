@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
+	import Collapsible from '$lib/components/ui/Collapsible.svelte';
 	import CopyAnalysisHeader from './CopyAnalysisHeader.svelte';
 	import CopyAnalysisExtracted from './CopyAnalysisExtracted.svelte';
 	import CopyAnalysisStoryBrand from './CopyAnalysisStoryBrand.svelte';
@@ -11,18 +13,30 @@
 	let { result }: Props = $props();
 </script>
 
-<div class="space-y-6">
-	<CopyAnalysisHeader
-		overallScore={result.overallScore}
-		verdict={result.verdict}
-		framing={result.framing}
-	/>
-	<CopyAnalysisExtracted extracted={result.extracted} />
-	<CopyAnalysisStoryBrand storyBrand={result.storyBrand} />
-	<CopyAnalysisDimensions dimensions={result.dimensions} />
-	<CopyAnalysisStrengthsIssues
-		strengths={result.strengths}
-		criticalIssues={result.criticalIssues}
-	/>
-	<CopyAnalysisQuickWins quickWins={result.quickWins} />
+<div>
+	<div class="mb-6">
+		<CopyAnalysisHeader
+			overallScore={result.overallScore}
+			verdict={result.verdict}
+			framing={result.framing}
+		/>
+	</div>
+	<Collapsible title={$_('modules.copyAnalysis.extracted.heading')}>
+		<CopyAnalysisExtracted extracted={result.extracted} />
+	</Collapsible>
+	<Collapsible title={$_('modules.copyAnalysis.storyBrand.heading')}>
+		<CopyAnalysisStoryBrand storyBrand={result.storyBrand} />
+	</Collapsible>
+	<Collapsible title={$_('modules.copyAnalysis.dimensions.heading')}>
+		<CopyAnalysisDimensions dimensions={result.dimensions} />
+	</Collapsible>
+	<Collapsible title={$_('modules.copyAnalysis.findings.heading')}>
+		<CopyAnalysisStrengthsIssues
+			strengths={result.strengths}
+			criticalIssues={result.criticalIssues}
+		/>
+	</Collapsible>
+	<Collapsible title={$_('modules.copyAnalysis.quickWins.heading')}>
+		<CopyAnalysisQuickWins quickWins={result.quickWins} />
+	</Collapsible>
 </div>

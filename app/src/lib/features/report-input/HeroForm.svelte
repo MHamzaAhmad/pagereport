@@ -3,11 +3,8 @@
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import Button from '$lib/components/ui/Button.svelte';
-	import Input from '$lib/components/ui/Input.svelte';
-	import Label from '$lib/components/ui/Label.svelte';
-	import Tooltip from '$lib/components/ui/Tooltip.svelte';
 	import Alert from '$lib/components/ui/Alert.svelte';
-	import { Info, MagnifyingGlass, WarningCircle } from 'phosphor-svelte';
+	import { ArrowRight, WarningCircle } from 'phosphor-svelte';
 	import { CreateReportForm } from './use-create-report.svelte';
 
 	const form = new CreateReportForm();
@@ -28,16 +25,12 @@
 	});
 </script>
 
-<form class="w-full space-y-4" onsubmit={handleSubmit}>
-	<div>
-		<div class="mb-1.5 flex items-center gap-1.5">
-			<Label for="report-url">{$_('home.urlLabel')}</Label>
-			<Tooltip content={$_('home.urlTooltip')}>
-				<Info size={14} class="text-muted-foreground" />
-			</Tooltip>
-		</div>
-		<Input
-			id="report-url"
+<form class="w-full space-y-3" onsubmit={handleSubmit}>
+	<div
+		class="border-border bg-surface focus-within:border-foreground hover:border-muted-foreground/40 flex items-center gap-1 rounded-[var(--radius-md)] border p-1.5 transition-colors focus-within:hover:border-[var(--color-foreground)]"
+	>
+		<input
+			id="report-url-hero"
 			type="url"
 			inputmode="url"
 			autocomplete="url"
@@ -45,8 +38,18 @@
 			bind:value={form.url}
 			disabled={form.isSubmitting}
 			required
+			aria-label={$_('home.urlPlaceholder')}
+			class="text-foreground placeholder:text-subtle h-11 min-w-0 flex-1 bg-transparent px-3 text-base outline-none disabled:cursor-not-allowed disabled:opacity-50"
 		/>
+		<Button type="submit" size="md" disabled={form.isSubmitting} class="shrink-0">
+			{form.isSubmitting ? $_('home.submitting') : $_('home.submit')}
+			<ArrowRight size={16} weight="bold" />
+		</Button>
 	</div>
+
+	<p class="text-subtle text-xs leading-relaxed">
+		{$_('home.urlTooltip')}
+	</p>
 
 	{#if errorMessage}
 		<Alert tone="danger">
@@ -54,9 +57,4 @@
 			<p>{errorMessage}</p>
 		</Alert>
 	{/if}
-
-	<Button type="submit" size="lg" disabled={form.isSubmitting} class="w-full sm:w-auto">
-		<MagnifyingGlass size={18} weight="bold" />
-		{form.isSubmitting ? $_('home.submitting') : $_('home.submit')}
-	</Button>
 </form>

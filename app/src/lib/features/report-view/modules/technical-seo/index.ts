@@ -6,6 +6,7 @@ registerModule({
 	moduleType: TECHNICAL_SEO_MODULE_TYPE,
 	labelKey: 'modules.technicalSeo.label',
 	descriptionKey: 'modules.technicalSeo.description',
+	priority: 60,
 	schema: technicalSeoResultSchema,
 	component: TechnicalSeoResult
 });

@@ -6,6 +6,7 @@ registerModule({
 	moduleType: FIVE_SEC_TEST_MODULE_TYPE,
 	labelKey: 'modules.fiveSecTest.label',
 	descriptionKey: 'modules.fiveSecTest.description',
+	priority: 20,
 	schema: fiveSecTestResultSchema,
 	component: FiveSecTestResult
 });

@@ -6,6 +6,7 @@ registerModule({
 	moduleType: TOP_PERFORMERS_MODULE_TYPE,
 	labelKey: 'modules.topPerformers.label',
 	descriptionKey: 'modules.topPerformers.description',
+	priority: 80,
 	schema: topPerformersResultSchema,
 	component: TopPerformersResult
 });

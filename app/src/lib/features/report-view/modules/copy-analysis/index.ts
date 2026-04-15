@@ -6,6 +6,7 @@ registerModule({
 	moduleType: COPY_ANALYSIS_MODULE_TYPE,
 	labelKey: 'modules.copyAnalysis.label',
 	descriptionKey: 'modules.copyAnalysis.description',
+	priority: 40,
 	schema: copyAnalysisResultSchema,
 	component: CopyAnalysisResult
 });

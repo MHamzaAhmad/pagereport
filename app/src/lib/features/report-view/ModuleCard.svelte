@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import Card from '$lib/components/ui/Card.svelte';
 	import ModuleStatusBadge from './ModuleStatusBadge.svelte';
 	import ModulePendingSkeleton from './ModulePendingSkeleton.svelte';
 	import ModuleErrorState from './ModuleErrorState.svelte';
@@ -25,26 +24,30 @@
 	});
 </script>
 
-<Card class="flex h-full flex-col gap-4">
-	<header class="flex items-start justify-between gap-3">
+<section class="border-border border-t py-10 first:border-t-0 first:pt-0">
+	<header class="mb-6 flex items-start justify-between gap-4">
 		<div class="min-w-0">
-			<h3 class="text-foreground truncate text-base font-semibold">
+			<h2 class="text-foreground font-serif text-3xl leading-tight sm:text-4xl">
 				{#if renderer}
 					{$_(renderer.labelKey)}
 				{:else}
 					{$_('module.unknown.title')}
 				{/if}
-			</h3>
+			</h2>
 			{#if renderer}
-				<p class="text-muted-foreground mt-0.5 text-xs">{$_(renderer.descriptionKey)}</p>
+				<p class="text-muted-foreground mt-2 max-w-xl text-sm leading-relaxed">
+					{$_(renderer.descriptionKey)}
+				</p>
 			{:else}
-				<p class="text-muted-foreground mt-0.5 text-xs">{$_('module.unknown.description')}</p>
+				<p class="text-muted-foreground mt-2 text-sm">{$_('module.unknown.description')}</p>
 			{/if}
 		</div>
-		<ModuleStatusBadge status={run.status} />
+		<div class="shrink-0 pt-2">
+			<ModuleStatusBadge status={run.status} />
+		</div>
 	</header>
 
-	<div class="flex-1">
+	<div>
 		{#if run.status === 'pending' || run.status === 'running' || run.status === 'awaiting_prerequisites'}
 			<ModulePendingSkeleton status={run.status} />
 		{:else if run.status === 'failed'}
@@ -60,4 +63,4 @@
 			{/if}
 		{/if}
 	</div>
-</Card>
+</section>

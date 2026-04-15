@@ -12,7 +12,7 @@
 </script>
 
 {#if visible.length > 0}
-	<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+	<div class="flex flex-col">
 		{#each visible as run (run.id)}
 			<PrerequisiteCard {run} />
 		{/each}

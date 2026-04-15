@@ -6,6 +6,7 @@ registerModule({
 	moduleType: CTA_AUDIT_MODULE_TYPE,
 	labelKey: 'modules.ctaAudit.label',
 	descriptionKey: 'modules.ctaAudit.description',
+	priority: 30,
 	schema: ctaAuditResultSchema,
 	component: CtaAuditResult
 });

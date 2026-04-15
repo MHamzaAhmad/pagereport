@@ -6,6 +6,7 @@ registerModule({
 	moduleType: TRUST_SOCIAL_PROOF_AUDIT_MODULE_TYPE,
 	labelKey: 'modules.trustSocialProofAudit.label',
 	descriptionKey: 'modules.trustSocialProofAudit.description',
+	priority: 50,
 	schema: trustSocialProofAuditResultSchema,
 	component: TrustSocialProofAuditResult
 });

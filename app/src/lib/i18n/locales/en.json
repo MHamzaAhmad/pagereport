@@ -6,21 +6,35 @@
 	"home": {
 		"title": "Audit your landing page in seconds",
 		"subtitle": "Enter a URL and we'll run a suite of clarity and conversion checks.",
-		"urlLabel": "Landing page URL",
 		"urlPlaceholder": "https://example.com",
 		"submit": "Analyze page",
 		"submitting": "Starting report…",
 		"urlInvalid": "Please enter a valid URL starting with http:// or https://",
 		"urlTooltip": "Paste the exact page a visitor would see — usually the one you link in ads."
 	},
+	"topBar": {
+		"wordmark": "PageReport",
+		"placeholder": "Analyze another URL…",
+		"submit": "Run",
+		"submitting": "Running…",
+		"submitAria": "Run a new report"
+	},
 	"report": {
-		"header": {
-			"title": "Report",
-			"createdAt": "Created"
+		"overview": {
+			"reportFor": "Report for"
 		},
-		"backHome": "New report",
 		"loadError": "We couldn't load this report.",
 		"empty": "No modules have been run for this report yet."
+	},
+	"ui": {
+		"expand": "Expand",
+		"collapse": "Collapse",
+		"showMore": "Show more",
+		"showLess": "Show less"
+	},
+	"footer": {
+		"rights": "© {year} PageReport. All rights reserved.",
+		"support": "Support"
 	},
 	"module": {
 		"status": {
@@ -174,6 +188,9 @@
 				"suggestion": "What to do",
 				"exampleRewrite": "Example rewrite"
 			},
+			"findings": {
+				"heading": "Strengths & blockers"
+			},
 			"strengths": {
 				"heading": "What's working"
 			},
@@ -242,6 +259,9 @@
 			},
 			"quickFixes": {
 				"heading": "Quick fixes"
+			},
+			"issuesFixes": {
+				"heading": "Issues & fixes"
 			}
 		},
 		"technicalSeo": {
@@ -357,6 +377,9 @@
 			"quickWins": {
 				"heading": "Quick wins",
 				"empty": "No obvious quick wins — your technical SEO is tight."
+			},
+			"issuesFixes": {
+				"heading": "Issues & quick wins"
 			}
 		},
 		"vibeCodedAudit": {
@@ -430,6 +453,7 @@
 			"pages": {
 				"empty": "We couldn't find strong matches for this niche yet. Try refining the page's focus and re-running."
 			},
+			"pagesHeading": "Top performers",
 			"page": {
 				"revenue": {
 					"label": "Revenue",
@@ -522,6 +546,9 @@
 			"redFlags": {
 				"heading": "Red flags",
 				"empty": "No red flags detected."
+			},
+			"gapsRedFlags": {
+				"heading": "Gaps & red flags"
 			},
 			"quickWins": {
 				"heading": "Quick wins",

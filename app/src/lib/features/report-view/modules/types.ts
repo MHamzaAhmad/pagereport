@@ -5,6 +5,7 @@ export interface ModuleRenderer<T = unknown> {
 	moduleType: string;
 	labelKey: string;
 	descriptionKey: string;
+	priority: number;
 	schema: ZodType<T>;
 	component: Component<{ result: T }>;
 }

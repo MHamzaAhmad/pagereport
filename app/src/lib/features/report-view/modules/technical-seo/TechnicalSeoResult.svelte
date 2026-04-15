@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
+	import Collapsible from '$lib/components/ui/Collapsible.svelte';
 	import TechnicalSeoHeader from './TechnicalSeoHeader.svelte';
 	import TechnicalSeoCheckSection from './TechnicalSeoCheckSection.svelte';
 	import TechnicalSeoSocialPreview from './TechnicalSeoSocialPreview.svelte';
@@ -29,19 +30,31 @@
 	);
 </script>
 
-<div class="space-y-5">
-	<TechnicalSeoHeader
-		overallStatus={result.overallStatus}
-		overallScore={result.overallScore}
-		verdict={result.verdict}
-	/>
-	<TechnicalSeoSocialPreview metadata={result.metadata} />
-	<TechnicalSeoCheckSection heading={$_('modules.technicalSeo.sections.core')} rows={coreRows} />
-	<TechnicalSeoCheckSection heading={$_('modules.technicalSeo.sections.openGraph')} rows={ogRows} />
-	<TechnicalSeoCheckSection
-		heading={$_('modules.technicalSeo.sections.twitter')}
-		rows={twitterRows}
-	/>
-	<TechnicalSeoStructuredData metadata={result.metadata} />
-	<TechnicalSeoIssuesFixes issues={result.issues} quickWins={result.quickWins} />
+<div>
+	<div class="mb-6">
+		<TechnicalSeoHeader
+			overallStatus={result.overallStatus}
+			overallScore={result.overallScore}
+			verdict={result.verdict}
+		/>
+	</div>
+
+	<Collapsible title={$_('modules.technicalSeo.socialPreview.heading')}>
+		<TechnicalSeoSocialPreview metadata={result.metadata} />
+	</Collapsible>
+	<Collapsible title={$_('modules.technicalSeo.sections.core')}>
+		<TechnicalSeoCheckSection rows={coreRows} />
+	</Collapsible>
+	<Collapsible title={$_('modules.technicalSeo.sections.openGraph')}>
+		<TechnicalSeoCheckSection rows={ogRows} />
+	</Collapsible>
+	<Collapsible title={$_('modules.technicalSeo.sections.twitter')}>
+		<TechnicalSeoCheckSection rows={twitterRows} />
+	</Collapsible>
+	<Collapsible title={$_('modules.technicalSeo.structuredData.heading')}>
+		<TechnicalSeoStructuredData metadata={result.metadata} />
+	</Collapsible>
+	<Collapsible title={$_('modules.technicalSeo.issuesFixes.heading')}>
+		<TechnicalSeoIssuesFixes issues={result.issues} quickWins={result.quickWins} />
+	</Collapsible>
 </div>
