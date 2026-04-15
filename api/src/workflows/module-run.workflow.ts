@@ -1,5 +1,6 @@
 import { WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep } from "cloudflare:workers";
 import { buildContainer } from "@/container";
+import { normalizeUrl } from "@/domain/url";
 import { getModule, type ModuleRunWorkflowParams } from "@/services/modules";
 import { makePrerequisiteResults } from "@/services/prerequisites";
 
@@ -14,6 +15,7 @@ export class ModuleRunWorkflow extends WorkflowEntrypoint<
 		const { moduleRunId, moduleType, url, prerequisiteResults } = event.payload;
 		const container = buildContainer(this.env);
 		const moduleRunsRepo = container.repos.moduleRuns;
+		const moduleCacheRepo = container.repos.moduleCache;
 
 		const module = getModule(moduleType);
 		if (!module) {
@@ -38,6 +40,9 @@ export class ModuleRunWorkflow extends WorkflowEntrypoint<
 				},
 			);
 			const validated = module.resultSchema.parse(result);
+			await step.do("kv-cache-put", () =>
+				moduleCacheRepo.put(moduleType, normalizeUrl(url), validated, module.cacheTtlMs),
+			);
 			await step.do("mark-completed", () => moduleRunsRepo.markCompleted(moduleRunId, validated));
 		} catch (err) {
 			const message = err instanceof Error ? err.message : String(err);

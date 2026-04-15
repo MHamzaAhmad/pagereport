@@ -7,7 +7,10 @@ import {
 	PsiLighthouseClient,
 } from "@/external";
 import {
+	CacheRepo,
+	ModuleCacheRepo,
 	ModuleRunsRepo,
+	PrerequisiteCacheRepo,
 	PrerequisiteResultsRepo,
 	PrerequisiteRunsRepo,
 	ReportsRepo,
@@ -30,6 +33,9 @@ export interface Container {
 		moduleRuns: ModuleRunsRepo;
 		prerequisiteRuns: PrerequisiteRunsRepo;
 		prerequisiteResults: PrerequisiteResultsRepo;
+		cache: CacheRepo;
+		moduleCache: ModuleCacheRepo;
+		prerequisiteCache: PrerequisiteCacheRepo;
 	};
 	external: {
 		browser: BrowserClient;
@@ -48,11 +54,15 @@ export interface Container {
 export function buildContainer(env: CloudflareBindings): Container {
 	const db = drizzle(env.DB);
 
+	const cache = new CacheRepo(env.CACHE);
 	const repos = {
 		reports: new ReportsRepo(db),
 		moduleRuns: new ModuleRunsRepo(db),
 		prerequisiteRuns: new PrerequisiteRunsRepo(db),
 		prerequisiteResults: new PrerequisiteResultsRepo(db),
+		cache,
+		moduleCache: new ModuleCacheRepo(cache),
+		prerequisiteCache: new PrerequisiteCacheRepo(cache),
 	};
 
 	const external = {
@@ -75,6 +85,8 @@ export function buildContainer(env: CloudflareBindings): Container {
 		repos.prerequisiteResults,
 		repos.prerequisiteRuns,
 		repos.moduleRuns,
+		repos.prerequisiteCache,
+		repos.moduleCache,
 		prerequisiteRunWorkflow,
 		moduleRunWorkflow,
 	);

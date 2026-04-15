@@ -1,5 +1,6 @@
 import type { WorkflowStep } from "cloudflare:workers";
 import type { z } from "zod";
+import { CACHE_MIN_TTL_MS } from "@/domain/cache-policy";
 import type { AIClient, FirecrawlClient } from "@/external";
 
 export interface PrerequisiteRunInput {
@@ -40,6 +41,15 @@ const registry = new Map<string, Prerequisite>();
 export function registerPrerequisite<TResult>(prerequisite: Prerequisite<TResult>): void {
 	if (registry.has(prerequisite.type)) {
 		throw new Error(`Prerequisite already registered: ${prerequisite.type}`);
+	}
+	if (
+		prerequisite.cacheTtlMs !== 0 &&
+		prerequisite.cacheTtlMs !== Number.POSITIVE_INFINITY &&
+		prerequisite.cacheTtlMs < CACHE_MIN_TTL_MS
+	) {
+		throw new Error(
+			`Prerequisite ${prerequisite.type} cacheTtlMs must be 0 (opt-out) or >= ${CACHE_MIN_TTL_MS}ms (1h)`,
+		);
 	}
 	registry.set(prerequisite.type, prerequisite as Prerequisite);
 }

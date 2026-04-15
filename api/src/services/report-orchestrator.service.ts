@@ -1,6 +1,8 @@
 import { normalizeUrl } from "@/domain/url";
 import type {
+	ModuleCacheRepo,
 	ModuleRunsRepo,
+	PrerequisiteCacheRepo,
 	PrerequisiteResultsRepo,
 	PrerequisiteRunsRepo,
 	ReportsRepo,
@@ -18,6 +20,8 @@ export class ReportOrchestratorService {
 		private readonly prerequisiteResults: PrerequisiteResultsRepo,
 		private readonly prerequisiteRuns: PrerequisiteRunsRepo,
 		private readonly moduleRuns: ModuleRunsRepo,
+		private readonly prerequisiteCache: PrerequisiteCacheRepo,
+		private readonly moduleCache: ModuleCacheRepo,
 		private readonly prerequisiteRunWorkflow: Workflow<PrerequisiteRunWorkflowParams>,
 		private readonly moduleRunWorkflow: Workflow<ModuleRunWorkflowParams>,
 	) {}
@@ -26,24 +30,52 @@ export class ReportOrchestratorService {
 		const normalizedUrl = normalizeUrl(url);
 
 		for (const prereq of listPrerequisites()) {
-			const cached = await this.prerequisiteResults.findFresh(
-				prereq.type,
-				normalizedUrl,
-				prereq.cacheTtlMs,
-			);
-			if (cached) {
+			const kvHit =
+				prereq.cacheTtlMs > 0
+					? await this.prerequisiteCache.findFresh(prereq.type, normalizedUrl)
+					: null;
+			if (kvHit !== null) {
+				const row = await this.prerequisiteResults.upsert(prereq.type, normalizedUrl, kvHit);
 				const now = new Date();
 				await this.prerequisiteRuns.insert({
 					id: crypto.randomUUID(),
 					reportId,
 					prerequisiteType: prereq.type,
 					status: "completed",
-					prerequisiteResultId: cached.id,
+					prerequisiteResultId: row.id,
 					startedAt: now,
 					completedAt: now,
 				});
 				continue;
 			}
+
+			const dbHit = await this.prerequisiteResults.findFresh(
+				prereq.type,
+				normalizedUrl,
+				prereq.cacheTtlMs,
+			);
+			if (dbHit) {
+				const now = new Date();
+				await this.prerequisiteRuns.insert({
+					id: crypto.randomUUID(),
+					reportId,
+					prerequisiteType: prereq.type,
+					status: "completed",
+					prerequisiteResultId: dbHit.id,
+					startedAt: now,
+					completedAt: now,
+				});
+				if (prereq.cacheTtlMs > 0) {
+					await this.prerequisiteCache.put(
+						prereq.type,
+						normalizedUrl,
+						JSON.parse(dbHit.resultJson) as unknown,
+						prereq.cacheTtlMs,
+					);
+				}
+				continue;
+			}
+
 			const hasDeps = (prereq.dependsOn?.length ?? 0) > 0;
 			await this.prerequisiteRuns.insert({
 				id: crypto.randomUUID(),
@@ -54,6 +86,22 @@ export class ReportOrchestratorService {
 		}
 
 		for (const module of listModules()) {
+			const cachedResult =
+				module.cacheTtlMs > 0 ? await this.moduleCache.findFresh(module.type, normalizedUrl) : null;
+			if (cachedResult !== null) {
+				const now = new Date();
+				await this.moduleRuns.insert({
+					id: crypto.randomUUID(),
+					reportId,
+					moduleType: module.type,
+					status: "completed",
+					resultJson: JSON.stringify(cachedResult),
+					startedAt: now,
+					completedAt: now,
+				});
+				continue;
+			}
+
 			const hasDeps = (module.dependsOn?.length ?? 0) > 0;
 			await this.moduleRuns.insert({
 				id: crypto.randomUUID(),

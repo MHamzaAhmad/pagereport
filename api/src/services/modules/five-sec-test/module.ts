@@ -1,3 +1,4 @@
+import { CACHE_MIN_TTL_MS } from "@/domain/cache-policy";
 import {
 	FIVE_SEC_TEST_MODULE_TYPE,
 	fiveSecTestResultSchema,
@@ -9,6 +10,7 @@ import { PAGE_INTELLIGENCE_PREREQ_TYPE } from "@/services/prerequisites/page-int
 registerModule({
 	type: FIVE_SEC_TEST_MODULE_TYPE,
 	dependsOn: [PAGE_INTELLIGENCE_PREREQ_TYPE],
+	cacheTtlMs: CACHE_MIN_TTL_MS,
 	resultSchema: fiveSecTestResultSchema,
 	run: runFiveSecTest,
 });

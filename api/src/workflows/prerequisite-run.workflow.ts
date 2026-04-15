@@ -17,6 +17,7 @@ export class PrerequisiteRunWorkflow extends WorkflowEntrypoint<
 		const container = buildContainer(this.env);
 		const runsRepo = container.repos.prerequisiteRuns;
 		const resultsRepo = container.repos.prerequisiteResults;
+		const cacheRepo = container.repos.prerequisiteCache;
 		const orchestrator = container.services.orchestrator;
 
 		const prerequisite = getPrerequisite(prerequisiteType);
@@ -45,8 +46,12 @@ export class PrerequisiteRunWorkflow extends WorkflowEntrypoint<
 				},
 			);
 			const validated = prerequisite.resultSchema.parse(result);
+			const normalized = normalizeUrl(url);
 			const cached = await step.do("cache-upsert", () =>
-				resultsRepo.upsert(prerequisiteType, normalizeUrl(url), validated),
+				resultsRepo.upsert(prerequisiteType, normalized, validated),
+			);
+			await step.do("kv-cache-put", () =>
+				cacheRepo.put(prerequisiteType, normalized, validated, prerequisite.cacheTtlMs),
 			);
 			await step.do("mark-completed", () =>
 				runsRepo.markCompletedWithResultId(prerequisiteRunId, cached.id),
