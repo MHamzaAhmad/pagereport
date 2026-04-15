@@ -15,6 +15,7 @@ interface FirecrawlV1Metadata {
 interface FirecrawlV1Data {
 	markdown?: string;
 	html?: string;
+	rawHtml?: string;
 	metadata?: FirecrawlV1Metadata;
 }
 
@@ -46,7 +47,7 @@ export class FirecrawlHttpClient implements FirecrawlClient {
 			},
 			body: JSON.stringify({
 				url,
-				formats: ["markdown", "html"],
+				formats: ["markdown", "html", "rawHtml"],
 				onlyMainContent: true,
 			}),
 		});
@@ -71,6 +72,7 @@ export class FirecrawlHttpClient implements FirecrawlClient {
 			markdown: data.markdown,
 			title: data.metadata?.title ?? null,
 			html: typeof data.html === "string" ? data.html : null,
+			rawHtml: typeof data.rawHtml === "string" ? data.rawHtml : null,
 			sourceUrl: data.metadata?.sourceURL ?? url,
 		};
 	}

@@ -45,7 +45,9 @@ export async function runCopyOutline(
 ): Promise<CopyOutlineResult> {
 	const scrape = prerequisites.get(PAGE_SCRAPE_PREREQ_TYPE, pageScrapeResultSchema);
 
-	const meta = await step.do("parse-meta", async () => extractMetaTags(scrape.html, scrape.title));
+	const meta = await step.do("parse-meta", async () =>
+		extractMetaTags(scrape.rawHtml, scrape.title),
+	);
 	const parsed = await step.do("parse-markdown", async () => parseMarkdown(scrape.markdown));
 
 	const hero = buildHero(parsed.headings, parsed.sections, parsed.ctas);

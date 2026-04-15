@@ -244,6 +244,121 @@
 				"heading": "Quick fixes"
 			}
 		},
+		"technicalSeo": {
+			"label": "Technical SEO",
+			"description": "Checks the invisible tags that control how your page appears on Google, Facebook, and Twitter — title, meta description, og:image, and more.",
+			"overall": {
+				"heading": "SEO health",
+				"score": "Score",
+				"status": {
+					"ok": "Looking good",
+					"warning": "Needs attention",
+					"critical": "Broken"
+				}
+			},
+			"sections": {
+				"core": "Core tags",
+				"openGraph": "Open Graph (Facebook / LinkedIn)",
+				"twitter": "Twitter cards",
+				"structuredData": "Structured data"
+			},
+			"checks": {
+				"title": {
+					"label": "Page title",
+					"tooltip": "The <title> tag is what shows up as the blue link on Google. 30–60 characters is the sweet spot — shorter gets ignored, longer gets cut off."
+				},
+				"metaDescription": {
+					"label": "Meta description",
+					"tooltip": "The snippet under your link on Google. 120–160 characters is ideal. No description means Google guesses — and often picks the wrong line."
+				},
+				"canonical": {
+					"label": "Canonical URL",
+					"tooltip": "Tells Google which URL is the 'official' version of this page. Prevents duplicate-content penalties when the same page is reachable via multiple URLs."
+				},
+				"viewport": {
+					"label": "Mobile viewport",
+					"tooltip": "Without this tag, your page won't scale properly on phones and Google will penalise you for being mobile-unfriendly."
+				},
+				"robots": {
+					"label": "Robots directive",
+					"tooltip": "Controls whether search engines index your page. If this says 'noindex' by mistake, your page is invisible on Google — a very common self-inflicted wound."
+				},
+				"lang": {
+					"label": "Language attribute",
+					"tooltip": "The lang=\"en\" attribute on <html> helps search engines and screen readers know what language your page is in."
+				},
+				"favicon": {
+					"label": "Favicon",
+					"tooltip": "The tiny icon in the browser tab and Google results. Missing it makes your listing look unfinished."
+				},
+				"charset": {
+					"label": "Character encoding",
+					"tooltip": "Should always be UTF-8. Wrong encoding breaks special characters, emoji, and non-English text."
+				},
+				"ogTitle": {
+					"label": "og:title",
+					"tooltip": "The headline shown when your link is shared on Facebook, LinkedIn, Slack or Discord. If missing, the page title is used — which is often too long."
+				},
+				"ogDescription": {
+					"label": "og:description",
+					"tooltip": "The preview text under the headline when shared. If missing, the share card looks empty and gets fewer clicks."
+				},
+				"ogImage": {
+					"label": "og:image",
+					"tooltip": "The preview image shown when your link is shared on social media. Missing this is the #1 reason dropshipping pages look unprofessional when shared. 1200×630 is the recommended size."
+				},
+				"ogUrl": {
+					"label": "og:url",
+					"tooltip": "The canonical URL reported to social platforms. Helps them de-duplicate shares."
+				},
+				"ogType": {
+					"label": "og:type",
+					"tooltip": "Tells social platforms what kind of content this is — usually 'website' or 'product'."
+				},
+				"twitterCard": {
+					"label": "twitter:card",
+					"tooltip": "Controls the layout of your Twitter preview card. 'summary_large_image' gives the big, clickable format that performs best."
+				},
+				"twitterTitle": {
+					"label": "twitter:title",
+					"tooltip": "Headline shown on Twitter. Falls back to og:title if missing, so this is usually optional if you already have og tags."
+				},
+				"twitterDescription": {
+					"label": "twitter:description",
+					"tooltip": "Preview text shown on Twitter. Falls back to og:description if missing."
+				},
+				"twitterImage": {
+					"label": "twitter:image",
+					"tooltip": "Preview image shown on Twitter. Falls back to og:image if missing."
+				},
+				"jsonLd": {
+					"label": "JSON-LD structured data",
+					"tooltip": "Machine-readable metadata (Product, Organization, FAQ, etc.) that lets Google show rich results — star ratings, prices, FAQs — directly in search."
+				}
+			},
+			"socialPreview": {
+				"heading": "How this page looks when shared",
+				"subtitle": "This is what visitors see on Facebook, LinkedIn, Slack and Twitter.",
+				"missingImage": "No image — this blank box is what gets shared.",
+				"missingTitle": "No title",
+				"missingDescription": "No description"
+			},
+			"structuredData": {
+				"heading": "Structured data",
+				"blockCountOne": "1 JSON-LD block",
+				"blockCountOther": "{count} JSON-LD blocks",
+				"typesLabel": "Types",
+				"empty": "No JSON-LD structured data detected."
+			},
+			"issues": {
+				"heading": "Issues",
+				"empty": "No blocking SEO issues — your metadata is clean."
+			},
+			"quickWins": {
+				"heading": "Quick wins",
+				"empty": "No obvious quick wins — your technical SEO is tight."
+			}
+		},
 		"vibeCodedAudit": {
 			"label": "Is this page vibe-coded?",
 			"description": "Checks if your page reads as a generic AI-generated template — too many gradients, icon cards, or stock patterns.",

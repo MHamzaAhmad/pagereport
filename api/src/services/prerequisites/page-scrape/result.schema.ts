@@ -6,6 +6,7 @@ export const pageScrapeResultSchema = z.object({
 	markdown: z.string().min(1),
 	title: z.string().nullable(),
 	html: z.string().nullable(),
+	rawHtml: z.string().nullable(),
 	sourceUrl: z.string().url(),
 });
 export type PageScrapeResult = z.infer<typeof pageScrapeResultSchema>;

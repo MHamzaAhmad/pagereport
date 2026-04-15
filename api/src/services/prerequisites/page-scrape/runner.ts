@@ -16,6 +16,7 @@ export async function runPageScrape(
 		markdown: scraped.markdown,
 		title: scraped.title,
 		html: scraped.html,
+		rawHtml: scraped.rawHtml,
 		sourceUrl: scraped.sourceUrl,
 	});
 }
