@@ -10,7 +10,12 @@
 		"submit": "Analyze page",
 		"submitting": "Starting report…",
 		"urlInvalid": "Please enter a valid URL starting with http:// or https://",
-		"urlTooltip": "Paste the exact page a visitor would see — usually the one you link in ads."
+		"urlTooltip": "Paste the exact page a visitor would see — usually the one you link in ads.",
+		"rateLimited": "You've hit the limit of 3 reports per hour. Please try again later."
+	},
+	"turnstile": {
+		"required": "Please complete the verification before submitting.",
+		"failed": "Verification couldn't load. Please refresh the page and try again."
 	},
 	"topBar": {
 		"wordmark": "PageReport",

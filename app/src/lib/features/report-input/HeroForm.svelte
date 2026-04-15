@@ -2,12 +2,16 @@
 	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
+	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
 	import Button from '$lib/components/ui/Button.svelte';
 	import Alert from '$lib/components/ui/Alert.svelte';
+	import TurnstileWidget from '$lib/features/turnstile/TurnstileWidget.svelte';
 	import { ArrowRight, WarningCircle } from 'phosphor-svelte';
 	import { CreateReportForm } from './use-create-report.svelte';
 
-	const form = new CreateReportForm();
+	const turnstileSiteKey = PUBLIC_TURNSTILE_SITE_KEY ?? '';
+	const turnstileEnabled = turnstileSiteKey.length > 0;
+	const form = new CreateReportForm(turnstileEnabled);
 
 	async function handleSubmit(event: SubmitEvent) {
 		event.preventDefault();
@@ -20,8 +24,9 @@
 	const errorMessage = $derived.by(() => {
 		if (!form.error) return null;
 		if (form.error === 'urlInvalid') return $_('home.urlInvalid');
-		if (form.error === 'generic') return $_('errors.generic');
-		return form.error;
+		if (form.error === 'rateLimited') return $_('home.rateLimited');
+		if (form.error === 'turnstileRequired') return $_('turnstile.required');
+		return $_('errors.generic');
 	});
 </script>
 
@@ -41,7 +46,7 @@
 			aria-label={$_('home.urlPlaceholder')}
 			class="text-foreground placeholder:text-subtle h-11 min-w-0 flex-1 bg-transparent px-3 text-base outline-none disabled:cursor-not-allowed disabled:opacity-50"
 		/>
-		<Button type="submit" size="md" disabled={form.isSubmitting} class="shrink-0">
+		<Button type="submit" size="md" disabled={!form.canSubmit} class="shrink-0">
 			{form.isSubmitting ? $_('home.submitting') : $_('home.submit')}
 			<ArrowRight size={16} weight="bold" />
 		</Button>
@@ -50,6 +55,14 @@
 	<p class="text-subtle text-xs leading-relaxed">
 		{$_('home.urlTooltip')}
 	</p>
+
+	{#if turnstileEnabled}
+		<TurnstileWidget
+			siteKey={turnstileSiteKey}
+			onToken={(token: string) => form.setTurnstileToken(token)}
+			onExpire={() => form.setTurnstileToken(null)}
+		/>
+	{/if}
 
 	{#if errorMessage}
 		<Alert tone="danger">

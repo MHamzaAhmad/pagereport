@@ -8,17 +8,19 @@ interface RequestOptions {
 	body?: unknown;
 	signal?: AbortSignal;
 	fetch?: FetchLike;
+	headers?: Record<string, string>;
 }
 
 export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
-	const { method = 'GET', body, signal, fetch: fetchImpl = fetch } = options;
+	const { method = 'GET', body, signal, fetch: fetchImpl = fetch, headers = {} } = options;
 	const url = `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
 
 	const response = await fetchImpl(url, {
 		method,
 		headers: {
 			'Content-Type': 'application/json',
-			Accept: 'application/json'
+			Accept: 'application/json',
+			...headers
 		},
 		body: body === undefined ? undefined : JSON.stringify(body),
 		signal

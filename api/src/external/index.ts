@@ -41,3 +41,12 @@ export {
 	TrustMrrHttpClient,
 	type TrustMrrHttpClientOptions,
 } from "@/external/trust-mrr/trust-mrr-http.client";
+export {
+	CloudflareTurnstileClient,
+	type CloudflareTurnstileClientOptions,
+} from "@/external/turnstile/cloudflare-turnstile.client";
+export type {
+	TurnstileClient,
+	TurnstileVerifyInput,
+	TurnstileVerifyResult,
+} from "@/external/turnstile/turnstile.client";

@@ -20,6 +20,8 @@ declare namespace Cloudflare {
 		PAGESPEED_API_KEY: string;
 		FIRECRAWL_API_KEY: string;
 		TRUSTMRR_API_KEY: string;
+		TURNSTILE_SECRET_KEY: string;
+		BURST_LIMITER: RateLimit;
 		MODULE_RUN_WF: Workflow<Parameters<import("./src/index").ModuleRunWorkflow['run']>[0]['payload']>;
 		PREREQUISITE_RUN_WF: Workflow<Parameters<import("./src/index").PrerequisiteRunWorkflow['run']>[0]['payload']>;
 	}

@@ -7,4 +7,6 @@ export {
 	ReportNotFoundError,
 } from "@/services/purchases.service";
 export { ReportOrchestratorService } from "@/services/report-orchestrator.service";
+export { ReportRateLimitService } from "@/services/report-rate-limit.service";
 export { ReportsService } from "@/services/reports.service";
+export { TurnstileService } from "@/services/turnstile.service";

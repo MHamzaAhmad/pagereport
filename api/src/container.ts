@@ -6,10 +6,12 @@ import type {
 	LighthouseClient,
 	PaymentClient,
 	TrustMrrClient,
+	TurnstileClient,
 } from "@/external";
 import {
 	CloudflareAIClient,
 	CloudflareBrowserClient,
+	CloudflareTurnstileClient,
 	FirecrawlHttpClient,
 	PolarClient,
 	PsiLighthouseClient,
@@ -23,6 +25,7 @@ import {
 	PrerequisiteResultsRepo,
 	PrerequisiteRunsRepo,
 	ReportPurchasesRepo,
+	ReportRateLimitRepo,
 	ReportsRepo,
 } from "@/repos";
 import {
@@ -30,7 +33,9 @@ import {
 	PrerequisitesService,
 	PurchasesService,
 	ReportOrchestratorService,
+	ReportRateLimitService,
 	ReportsService,
+	TurnstileService,
 } from "@/services";
 // Side-effect imports: registers all AnalysisModule / Prerequisite entries.
 import "@/services/modules";
@@ -45,6 +50,7 @@ export interface Container {
 		prerequisiteRuns: PrerequisiteRunsRepo;
 		prerequisiteResults: PrerequisiteResultsRepo;
 		reportPurchases: ReportPurchasesRepo;
+		reportRateLimit: ReportRateLimitRepo;
 		cache: CacheRepo;
 		moduleCache: ModuleCacheRepo;
 		prerequisiteCache: PrerequisiteCacheRepo;
@@ -56,6 +62,7 @@ export interface Container {
 		firecrawl: FirecrawlClient;
 		trustMrr: TrustMrrClient;
 		payment: PaymentClient;
+		turnstile: TurnstileClient | null;
 	};
 	services: {
 		reports: ReportsService;
@@ -63,6 +70,8 @@ export interface Container {
 		prerequisites: PrerequisitesService;
 		orchestrator: ReportOrchestratorService;
 		purchases: PurchasesService;
+		reportRateLimit: ReportRateLimitService;
+		turnstile: TurnstileService;
 	};
 }
 
@@ -76,6 +85,7 @@ export function buildContainer(env: CloudflareBindings): Container {
 		prerequisiteRuns: new PrerequisiteRunsRepo(db),
 		prerequisiteResults: new PrerequisiteResultsRepo(db),
 		reportPurchases: new ReportPurchasesRepo(db),
+		reportRateLimit: new ReportRateLimitRepo(db),
 		cache,
 		moduleCache: new ModuleCacheRepo(cache),
 		prerequisiteCache: new PrerequisiteCacheRepo(cache),
@@ -83,6 +93,11 @@ export function buildContainer(env: CloudflareBindings): Container {
 
 	const polarServer: "production" | "sandbox" =
 		(env.POLAR_SERVER as string) === "production" ? "production" : "sandbox";
+	const turnstileSecret = env.TURNSTILE_SECRET_KEY ?? "";
+	const turnstileClient: TurnstileClient | null =
+		turnstileSecret.length > 0
+			? new CloudflareTurnstileClient({ secretKey: turnstileSecret })
+			: null;
 	const external = {
 		browser: new CloudflareBrowserClient(env.BROWSER),
 		ai: new CloudflareAIClient(env.AI),
@@ -97,6 +112,7 @@ export function buildContainer(env: CloudflareBindings): Container {
 			productId: env.POLAR_PRODUCT_ID,
 			server: polarServer,
 		}),
+		turnstile: turnstileClient,
 	};
 
 	const moduleRunWorkflow = env.MODULE_RUN_WF as unknown as Workflow<ModuleRunWorkflowParams>;
@@ -129,9 +145,20 @@ export function buildContainer(env: CloudflareBindings): Container {
 		},
 	);
 
+	const reportRateLimit = new ReportRateLimitService(repos.reportRateLimit);
+	const turnstile = new TurnstileService(turnstileClient, turnstileClient !== null);
+
 	return {
 		repos,
 		external,
-		services: { reports, modules, prerequisites, orchestrator, purchases },
+		services: {
+			reports,
+			modules,
+			prerequisites,
+			orchestrator,
+			purchases,
+			reportRateLimit,
+			turnstile,
+		},
 	};
 }

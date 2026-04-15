@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { reportsRouter } from "@/transport/http/routes/reports";
 import { webhooksRouter } from "@/transport/http/routes/webhooks";
 import type { AppEnv } from "@/transport/http/types";
+import { burstLimitMiddleware } from "@/transport/middleware/burst-limit";
 import { containerMiddleware } from "@/transport/middleware/container";
 import { corsMiddleware } from "@/transport/middleware/cors";
 
@@ -11,6 +12,7 @@ export { PrerequisiteRunWorkflow } from "@/workflows/prerequisite-run.workflow";
 const app = new Hono<AppEnv>();
 
 app.use("*", corsMiddleware);
+app.use("*", burstLimitMiddleware);
 app.use("*", containerMiddleware);
 
 app.get("/message", (c) => c.text("Hello Hono!"));

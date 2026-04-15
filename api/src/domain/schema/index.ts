@@ -19,4 +19,5 @@ export {
 	reportPurchases,
 	reportPurchasesRelations,
 } from "@/domain/schema/report-purchases";
+export { reportRateLimitAttempts } from "@/domain/schema/report-rate-limit-attempts";
 export { reports } from "@/domain/schema/reports";

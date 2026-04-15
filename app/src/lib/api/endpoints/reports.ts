@@ -6,14 +6,22 @@ interface RequestContext {
 	signal?: AbortSignal;
 }
 
+interface CreateReportContext extends RequestContext {
+	turnstileToken?: string;
+}
+
 export function createReport(
 	input: CreateReportInput,
-	ctx: RequestContext = {}
+	ctx: CreateReportContext = {}
 ): Promise<ReportWithModulesResponse> {
+	const { turnstileToken, ...rest } = ctx;
+	const headers: Record<string, string> = {};
+	if (turnstileToken) headers['cf-turnstile-token'] = turnstileToken;
 	return apiRequest<ReportWithModulesResponse>('/reports', {
 		method: 'POST',
 		body: input,
-		...ctx
+		headers,
+		...rest
 	});
 }
 
