@@ -1,4 +1,5 @@
 import "@/services/modules/five-sec-test/module";
+import "@/services/modules/lighthouse/module";
 
 export type {
 	AnalysisModule,

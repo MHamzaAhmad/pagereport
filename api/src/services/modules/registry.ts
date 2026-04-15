@@ -1,6 +1,6 @@
 import type { WorkflowStep } from "cloudflare:workers";
 import type { z } from "zod";
-import type { AIClient, BrowserClient } from "@/external";
+import type { AIClient, BrowserClient, LighthouseClient } from "@/external";
 
 export interface ModuleRunInput {
 	readonly url: string;
@@ -17,6 +17,7 @@ export interface ModuleRunWorkflowParams {
 export interface ModuleRunContext {
 	readonly browser: BrowserClient;
 	readonly ai: AIClient;
+	readonly lighthouse: LighthouseClient;
 	readonly step: WorkflowStep;
 }
 

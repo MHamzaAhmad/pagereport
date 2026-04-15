@@ -40,7 +40,11 @@
 		}
 	],
 	"vars": {
-		"CORS_ALLOWED_ORIGINS": "http://localhost:5173"
+		"CORS_ALLOWED_ORIGINS": "http://localhost:5173",
+		// Optional Google PageSpeed Insights API key. Leave blank for anonymous
+		// quota (limited) or override with `wrangler secret put PAGESPEED_API_KEY`
+		// in production for higher quota.
+		"PAGESPEED_API_KEY": ""
 	}
 	/**
 	 * Smart Placement

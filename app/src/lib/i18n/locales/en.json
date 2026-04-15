@@ -62,6 +62,66 @@
 					"tooltip": "Unfiltered thoughts a first-time visitor might have."
 				}
 			}
+		},
+		"lighthouse": {
+			"label": "Lighthouse audit",
+			"description": "Performance, SEO and accessibility scores from Google Lighthouse — tested on both mobile and desktop.",
+			"device": {
+				"mobile": "Mobile",
+				"desktop": "Desktop",
+				"tooltip": "Switch between the mobile and desktop audit results."
+			},
+			"scoresHeading": "Category scores",
+			"categories": {
+				"performance": {
+					"label": "Performance",
+					"tooltip": "How fast your page loads and becomes interactive. 90+ is good, 50–89 needs work, under 50 is poor."
+				},
+				"seo": {
+					"label": "SEO",
+					"tooltip": "How well search engines can find and understand your page."
+				},
+				"accessibility": {
+					"label": "Accessibility",
+					"tooltip": "How usable your page is for people with disabilities — contrast, labels, screen-reader support."
+				}
+			},
+			"cwv": {
+				"heading": "Core Web Vitals",
+				"subtitle": "The Google metrics that actually affect search ranking and user experience.",
+				"lcp": {
+					"label": "LCP",
+					"tooltip": "Largest Contentful Paint — when the biggest thing on screen appears. Under 2.5s is good."
+				},
+				"cls": {
+					"label": "CLS",
+					"tooltip": "Cumulative Layout Shift — how much the page jumps around as it loads. Under 0.1 is good."
+				},
+				"inp": {
+					"label": "INP",
+					"tooltip": "Interaction to Next Paint — how quickly your page reacts to clicks and taps. Under 200ms is good."
+				},
+				"fcp": {
+					"label": "FCP",
+					"tooltip": "First Contentful Paint — when the user first sees anything. Under 1.8s is good."
+				},
+				"tbt": {
+					"label": "TBT",
+					"tooltip": "Total Blocking Time — how long the page is frozen during load. Under 200ms is good."
+				},
+				"speedIndex": {
+					"label": "Speed Index",
+					"tooltip": "How quickly the page visually fills in. Under 3.4s is good."
+				},
+				"unavailable": "n/a"
+			},
+			"opportunities": {
+				"heading": "Top fixes",
+				"subtitle": "Biggest performance wins, sorted by estimated time saved.",
+				"empty": "No major opportunities found — nice work.",
+				"savingsLabel": "~{value} faster",
+				"finalUrlLabel": "Tested URL"
+			}
 		}
 	},
 	"errors": {

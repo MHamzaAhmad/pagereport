@@ -1,6 +1,10 @@
 import { drizzle } from "drizzle-orm/d1";
-import type { AIClient, BrowserClient } from "@/external";
-import { CloudflareAIClient, CloudflareBrowserClient } from "@/external";
+import type { AIClient, BrowserClient, LighthouseClient } from "@/external";
+import {
+	CloudflareAIClient,
+	CloudflareBrowserClient,
+	PsiLighthouseClient,
+} from "@/external";
 import { ModuleRunsRepo, ReportsRepo } from "@/repos";
 import { ModulesService, ReportsService } from "@/services";
 // Side-effect import: registers all AnalysisModule entries into the registry.
@@ -15,6 +19,7 @@ export interface Container {
 	external: {
 		browser: BrowserClient;
 		ai: AIClient;
+		lighthouse: LighthouseClient;
 	};
 	services: {
 		reports: ReportsService;
@@ -33,6 +38,9 @@ export function buildContainer(env: CloudflareBindings): Container {
 	const external = {
 		browser: new CloudflareBrowserClient(env.BROWSER),
 		ai: new CloudflareAIClient(env.AI),
+		lighthouse: new PsiLighthouseClient(
+			env.PAGESPEED_API_KEY ? { apiKey: env.PAGESPEED_API_KEY } : {},
+		),
 	};
 
 	const moduleRunWorkflow = env.MODULE_RUN_WF as unknown as Workflow<ModuleRunWorkflowParams>;
