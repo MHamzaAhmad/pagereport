@@ -89,6 +89,36 @@
 				}
 			}
 		},
+		"topPerformers": {
+			"label": "Top performers in your niche",
+			"description": "Pages in your space that are already converting — study what's working for them.",
+			"header": {
+				"title": "Top performers in your niche",
+				"subtitle": "Real pages you can draw inspiration from — we picked ones that are demonstrably converting in your space.",
+				"tooltip": "We matched your page's niche to the closest spaces and pulled the best-performing examples for each."
+			},
+			"matchedCategories": {
+				"label": "Matched spaces"
+			},
+			"rationale": {
+				"label": "Why these"
+			},
+			"pages": {
+				"empty": "We couldn't find strong matches for this niche yet. Try refining the page's focus and re-running."
+			},
+			"page": {
+				"revenue": {
+					"label": "Revenue",
+					"tooltip": "Estimated monthly revenue for this page."
+				},
+				"growth": {
+					"label": "Growth"
+				},
+				"visit": {
+					"cta": "Visit page"
+				}
+			}
+		},
 		"lighthouse": {
 			"label": "Lighthouse audit",
 			"description": "Performance, SEO and accessibility scores from Google Lighthouse — tested on both mobile and desktop.",

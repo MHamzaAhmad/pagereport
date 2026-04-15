@@ -20,3 +20,15 @@ export type {
 	LighthouseOpportunity,
 } from "@/external/lighthouse/lighthouse.client";
 export { PsiLighthouseClient } from "@/external/lighthouse/psi-lighthouse.client";
+export type {
+	TrustMrrClient,
+	TrustMrrListInput,
+	TrustMrrListResult,
+	TrustMrrSortOrder,
+	TrustMrrStartup,
+	TrustMrrStartup as TopPerformerSourceStartup,
+} from "@/external/trust-mrr/trust-mrr.client";
+export {
+	TrustMrrHttpClient,
+	type TrustMrrHttpClientOptions,
+} from "@/external/trust-mrr/trust-mrr-http.client";

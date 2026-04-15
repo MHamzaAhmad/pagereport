@@ -9,7 +9,7 @@ const VISION_MODEL = "@cf/meta/llama-3.2-11b-vision-instruct";
 const TEXT_MODEL = "@cf/zai-org/glm-4.7-flash";
 const DEFAULT_MAX_TOKENS = 1024;
 const DEFAULT_TEMPERATURE = 0.2;
-const EXTRACT_MAX_TOKENS = 2048;
+const EXTRACT_MAX_TOKENS = 10000;
 const EXTRACT_TEMPERATURE = 0;
 const DEFAULT_SCHEMA_NAME = "result";
 

@@ -1,7 +1,7 @@
 import type { WorkflowStep } from "cloudflare:workers";
 import type { z } from "zod";
 import { CACHE_MIN_TTL_MS } from "@/domain/cache-policy";
-import type { AIClient, BrowserClient, LighthouseClient } from "@/external";
+import type { AIClient, BrowserClient, LighthouseClient, TrustMrrClient } from "@/external";
 import type { PrerequisiteResults } from "@/services/prerequisites/registry";
 
 export interface ModuleRunInput {
@@ -21,6 +21,7 @@ export interface ModuleRunContext {
 	readonly browser: BrowserClient;
 	readonly ai: AIClient;
 	readonly lighthouse: LighthouseClient;
+	readonly topPerformerSource: TrustMrrClient;
 	readonly prerequisites: PrerequisiteResults;
 	readonly step: WorkflowStep;
 }

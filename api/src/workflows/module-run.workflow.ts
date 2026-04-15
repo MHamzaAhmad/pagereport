@@ -35,6 +35,7 @@ export class ModuleRunWorkflow extends WorkflowEntrypoint<
 					browser: container.external.browser,
 					ai: container.external.ai,
 					lighthouse: container.external.lighthouse,
+					topPerformerSource: container.external.trustMrr,
 					prerequisites,
 					step,
 				},

@@ -14,6 +14,7 @@ declare namespace Cloudflare {
 		CORS_ALLOWED_ORIGINS: "http://localhost:5173";
 		PAGESPEED_API_KEY: string;
 		FIRECRAWL_API_KEY: string;
+		TRUSTMRR_API_KEY: string;
 		MODULE_RUN_WF: Workflow<Parameters<import("./src/index").ModuleRunWorkflow['run']>[0]['payload']>;
 		PREREQUISITE_RUN_WF: Workflow<Parameters<import("./src/index").PrerequisiteRunWorkflow['run']>[0]['payload']>;
 	}
@@ -23,7 +24,7 @@ type StringifyValues<EnvType extends Record<string, unknown>> = {
 	[Binding in keyof EnvType]: EnvType[Binding] extends string ? EnvType[Binding] : string;
 };
 declare namespace NodeJS {
-	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "CORS_ALLOWED_ORIGINS" | "PAGESPEED_API_KEY" | "FIRECRAWL_API_KEY">> {}
+	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "CORS_ALLOWED_ORIGINS" | "PAGESPEED_API_KEY" | "FIRECRAWL_API_KEY" | "TRUSTMRR_API_KEY">> {}
 }
 
 // Begin runtime types

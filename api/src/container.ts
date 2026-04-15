@@ -1,10 +1,17 @@
 import { drizzle } from "drizzle-orm/d1";
-import type { AIClient, BrowserClient, FirecrawlClient, LighthouseClient } from "@/external";
+import type {
+	AIClient,
+	BrowserClient,
+	FirecrawlClient,
+	LighthouseClient,
+	TrustMrrClient,
+} from "@/external";
 import {
 	CloudflareAIClient,
 	CloudflareBrowserClient,
 	FirecrawlHttpClient,
 	PsiLighthouseClient,
+	TrustMrrHttpClient,
 } from "@/external";
 import {
 	CacheRepo,
@@ -42,6 +49,7 @@ export interface Container {
 		ai: AIClient;
 		lighthouse: LighthouseClient;
 		firecrawl: FirecrawlClient;
+		trustMrr: TrustMrrClient;
 	};
 	services: {
 		reports: ReportsService;
@@ -72,6 +80,7 @@ export function buildContainer(env: CloudflareBindings): Container {
 			env.PAGESPEED_API_KEY ? { apiKey: env.PAGESPEED_API_KEY } : {},
 		),
 		firecrawl: new FirecrawlHttpClient({ apiKey: env.FIRECRAWL_API_KEY }),
+		trustMrr: new TrustMrrHttpClient({ apiKey: env.TRUSTMRR_API_KEY }),
 	};
 
 	const moduleRunWorkflow = env.MODULE_RUN_WF as unknown as Workflow<ModuleRunWorkflowParams>;

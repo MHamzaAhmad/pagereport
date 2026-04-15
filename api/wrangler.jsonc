@@ -58,7 +58,11 @@
 		"PAGESPEED_API_KEY": "",
 		// Firecrawl API key for the page_scrape prerequisite. Set in production
 		// with `wrangler secret put FIRECRAWL_API_KEY`.
-		"FIRECRAWL_API_KEY": ""
+		"FIRECRAWL_API_KEY": "",
+		// API key for the revenue-verified startup data source used by the
+		// top_performers module. Set in production with
+		// `wrangler secret put TRUSTMRR_API_KEY`.
+		"TRUSTMRR_API_KEY": ""
 	}
 	/**
 	 * Smart Placement

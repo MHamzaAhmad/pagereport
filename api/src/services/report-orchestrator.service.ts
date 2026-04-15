@@ -35,6 +35,7 @@ export class ReportOrchestratorService {
 					? await this.prerequisiteCache.findFresh(prereq.type, normalizedUrl)
 					: null;
 			if (kvHit !== null) {
+				console.log(`[orchestrator] prereq ${prereq.type}: kv cache hit`);
 				const row = await this.prerequisiteResults.upsert(prereq.type, normalizedUrl, kvHit);
 				const now = new Date();
 				await this.prerequisiteRuns.insert({
@@ -55,6 +56,7 @@ export class ReportOrchestratorService {
 				prereq.cacheTtlMs,
 			);
 			if (dbHit) {
+				console.log(`[orchestrator] prereq ${prereq.type}: d1 cache hit`);
 				const now = new Date();
 				await this.prerequisiteRuns.insert({
 					id: crypto.randomUUID(),
@@ -76,6 +78,7 @@ export class ReportOrchestratorService {
 				continue;
 			}
 
+			console.log(`[orchestrator] prereq ${prereq.type}: cache miss, queued`);
 			const hasDeps = (prereq.dependsOn?.length ?? 0) > 0;
 			await this.prerequisiteRuns.insert({
 				id: crypto.randomUUID(),
@@ -89,6 +92,7 @@ export class ReportOrchestratorService {
 			const cachedResult =
 				module.cacheTtlMs > 0 ? await this.moduleCache.findFresh(module.type, normalizedUrl) : null;
 			if (cachedResult !== null) {
+				console.log(`[orchestrator] module ${module.type}: kv cache hit`);
 				const now = new Date();
 				await this.moduleRuns.insert({
 					id: crypto.randomUUID(),
@@ -102,6 +106,7 @@ export class ReportOrchestratorService {
 				continue;
 			}
 
+			console.log(`[orchestrator] module ${module.type}: cache miss, queued`);
 			const hasDeps = (module.dependsOn?.length ?? 0) > 0;
 			await this.moduleRuns.insert({
 				id: crypto.randomUUID(),
@@ -181,6 +186,7 @@ export class ReportOrchestratorService {
 			const deps = prereq.dependsOn ?? [];
 			if (!deps.every((d) => completed.has(d))) continue;
 			const payload = buildPrereqResultsPayload(deps, completed);
+			console.log(`[orchestrator] prereq ${run.prerequisiteType}: workflow dispatched`);
 			const instance = await this.prerequisiteRunWorkflow.create({
 				id: run.id,
 				params: {
@@ -202,6 +208,7 @@ export class ReportOrchestratorService {
 			const deps = module.dependsOn ?? [];
 			if (!deps.every((d) => completed.has(d))) continue;
 			const payload = buildPrereqResultsPayload(deps, completed);
+			console.log(`[orchestrator] module ${run.moduleType}: workflow dispatched`);
 			const instance = await this.moduleRunWorkflow.create({
 				id: run.id,
 				params: {
