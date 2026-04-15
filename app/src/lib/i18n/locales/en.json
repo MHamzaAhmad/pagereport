@@ -242,6 +242,92 @@
 				}
 			}
 		},
+		"trustSocialProofAudit": {
+			"label": "Trust & social proof audit",
+			"description": "Visitors don't buy from pages they don't trust. We scan your full page — top to bottom — for testimonials, reviews, badges, guarantees, and social proof, then flag what's missing.",
+			"overall": {
+				"scoreLabel": "Trust score",
+				"scoreTooltip": "How trustworthy your page feels at a glance. Weighted by the signals that actually move dropshipping conversion rates: reviews and testimonials first, then guarantees, badges, and social proof. Red flags (fake urgency, broken badges) subtract.",
+				"strengthLabel": {
+					"strong": "Strong",
+					"needsWork": "Needs work",
+					"weak": "Weak"
+				}
+			},
+			"signals": {
+				"heading": "Signals we found",
+				"testimonials": {
+					"label": "Testimonials",
+					"tooltip": "Quoted customer voices on the page. Named testimonials with photos convert dramatically better than anonymous text blocks.",
+					"count": "{count} testimonials found",
+					"hasNames": "with names",
+					"anonymous": "anonymous",
+					"hasPhotos": "with photos",
+					"noPhotos": "no photos",
+					"absent": "No testimonials found on the page."
+				},
+				"reviews": {
+					"label": "Reviews & ratings",
+					"tooltip": "Star ratings, numeric scores, and review counts — ideally from a recognised platform like Trustpilot, Google, or Judge.me.",
+					"ratingSuffix": "/ 5 average",
+					"count": "{count} reviews",
+					"sourceLabel": "Source",
+					"absent": "No reviews or ratings detected."
+				},
+				"badges": {
+					"label": "Trust badges",
+					"tooltip": "Security and payment badges that signal a safe checkout — SSL, accepted payment methods, and third-party certifications.",
+					"ssl": "SSL / secure checkout",
+					"paymentLogos": "Payment method logos",
+					"certifications": "Security certifications",
+					"absent": "No trust or security badges detected."
+				},
+				"guarantees": {
+					"label": "Guarantees",
+					"tooltip": "Promises that remove purchase risk — money-back, free shipping, warranties. The single biggest lever for first-time visitors.",
+					"moneyBack": "Money-back guarantee",
+					"shipping": "Free or fast shipping",
+					"warranty": "Warranty / returns",
+					"absent": "No guarantees advertised on the page."
+				},
+				"socialProof": {
+					"label": "Social proof",
+					"tooltip": "Third-party validation: customer logos, press mentions, follower/user counts, and expert or influencer endorsements.",
+					"customerLogos": "Customer logos",
+					"pressMentions": "Press mentions",
+					"userCounts": "User / follower counts",
+					"influencer": "Expert or influencer endorsement",
+					"absent": "No social proof signals detected."
+				},
+				"urgency": {
+					"label": "Urgency & scarcity",
+					"tooltip": "Stock counters, countdown timers and limited offers. Authentic urgency helps; fake urgency destroys trust.",
+					"type": {
+						"none": "No urgency element",
+						"stock": "Stock counter",
+						"timer": "Countdown timer",
+						"limited_offer": "Limited-time offer",
+						"mixed": "Multiple urgency elements"
+					},
+					"authentic": "Reads as authentic.",
+					"inauthentic": "Feels manipulative — consider removing.",
+					"absent": "No urgency or scarcity elements."
+				}
+			},
+			"gaps": {
+				"heading": "Missing signals",
+				"empty": "No obvious gaps — the page is covering the essentials."
+			},
+			"redFlags": {
+				"heading": "Red flags",
+				"empty": "No red flags detected."
+			},
+			"quickWins": {
+				"heading": "Quick wins",
+				"subtitle": "Small trust-building changes you can ship today.",
+				"empty": "No easy wins — the biggest gaps here need a more involved fix."
+			}
+		},
 		"lighthouse": {
 			"label": "Lighthouse audit",
 			"description": "Performance, SEO and accessibility scores from Google Lighthouse — tested on both mobile and desktop.",

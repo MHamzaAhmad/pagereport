@@ -5,10 +5,23 @@ export interface ScreenshotOptions {
 	readonly navigationTimeoutMs?: number;
 }
 
+export interface SectionScreenshotOptions extends ScreenshotOptions {
+	readonly maxSections?: number;
+	readonly settleDelayMs?: number;
+}
+
 export interface BrowserClient {
 	/**
 	 * Navigate to the given URL in a real browser and return a PNG screenshot
 	 * of the initial above-the-fold view. The caller owns the returned bytes.
 	 */
 	screenshot(url: string, options?: ScreenshotOptions): Promise<Uint8Array>;
+
+	/**
+	 * Navigate to the URL, then scroll the page viewport-by-viewport from top
+	 * to bottom, returning one JPEG per section in order. The number of
+	 * returned images is min(ceil(pageHeight / viewportHeight), maxSections).
+	 * Always returns at least one image.
+	 */
+	screenshotSections(url: string, options?: SectionScreenshotOptions): Promise<Uint8Array[]>;
 }
