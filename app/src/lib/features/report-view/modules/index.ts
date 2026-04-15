@@ -1,4 +1,5 @@
 import './copy-analysis';
+import './cta-audit';
 import './five-sec-test';
 import './lighthouse';
 import './top-performers';

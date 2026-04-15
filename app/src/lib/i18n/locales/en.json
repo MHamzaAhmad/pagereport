@@ -190,6 +190,60 @@
 				"empty": "No obvious quick wins — the copy issues here need a deeper rewrite."
 			}
 		},
+		"ctaAudit": {
+			"label": "CTA audit",
+			"description": "A quick check on your primary call-to-action — is it visible above the fold, and does its link actually go somewhere?",
+			"overall": {
+				"heading": "CTA status",
+				"status": {
+					"ok": "Working",
+					"warning": "Needs attention",
+					"critical": "Broken"
+				}
+			},
+			"primary": {
+				"heading": "Primary CTA",
+				"textLabel": "Text",
+				"textMissing": "No text detected",
+				"hrefLabel": "Link",
+				"hrefMissing": "No link",
+				"notDetected": "We couldn't find a primary call-to-action on this page.",
+				"visible": "Visible above the fold",
+				"notVisible": "Not visible above the fold",
+				"hrefStatus": {
+					"valid": "Link looks valid",
+					"anchor_only": "Anchor only (#)",
+					"javascript_void": "JavaScript void",
+					"empty_or_missing": "Missing link",
+					"mailto_tel": "Mailto / tel link"
+				}
+			},
+			"checks": {
+				"heading": "Checks",
+				"hasPrimaryCta": {
+					"label": "Has a primary CTA",
+					"tooltip": "Every landing page needs one clear primary action. If visitors can't spot it, they won't take it."
+				},
+				"aboveTheFold": {
+					"label": "Above the fold",
+					"tooltip": "Visitors shouldn't have to scroll to find the primary action. A CTA buried below the fold loses most of its clicks."
+				},
+				"hrefWorks": {
+					"label": "Link works",
+					"tooltip": "The CTA must point to a real destination — not '#', not an empty href, not javascript:void(0)."
+				},
+				"visuallyProminent": {
+					"label": "Visually prominent",
+					"tooltip": "The CTA should stand out with strong contrast, clear button styling, and enough size to feel clickable at a glance."
+				}
+			},
+			"issues": {
+				"heading": "Issues"
+			},
+			"quickFixes": {
+				"heading": "Quick fixes"
+			}
+		},
 		"fiveSecTest": {
 			"label": "5-Second Test",
 			"description": "Simulates a first-time visitor's 5-second glance at your page.",

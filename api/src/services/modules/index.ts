@@ -1,4 +1,5 @@
 import "@/services/modules/copy-analysis/module";
+import "@/services/modules/cta-audit/module";
 import "@/services/modules/five-sec-test/module";
 import "@/services/modules/lighthouse/module";
 import "@/services/modules/top-performers/module";
