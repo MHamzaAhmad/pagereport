@@ -5,11 +5,15 @@ import { reports } from "@/domain/schema/reports";
 export const moduleRunStatusValues = [
 	"pending",
 	"awaiting_prerequisites",
+	"awaiting_payment",
 	"running",
 	"completed",
 	"failed",
 ] as const;
 export type ModuleRunStatus = (typeof moduleRunStatusValues)[number];
+
+export const moduleRunUnlockedViaValues = ["free", "cache", "purchase"] as const;
+export type ModuleRunUnlockedVia = (typeof moduleRunUnlockedViaValues)[number];
 
 export const moduleRuns = sqliteTable(
 	"module_runs",
@@ -20,6 +24,7 @@ export const moduleRuns = sqliteTable(
 			.references(() => reports.id, { onDelete: "cascade" }),
 		moduleType: text("module_type").notNull(),
 		status: text("status", { enum: moduleRunStatusValues }).notNull().default("pending"),
+		unlockedVia: text("unlocked_via", { enum: moduleRunUnlockedViaValues }),
 		resultJson: text("result_json"),
 		error: text("error"),
 		workflowInstanceId: text("workflow_instance_id"),

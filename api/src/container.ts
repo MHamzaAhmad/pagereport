@@ -4,12 +4,14 @@ import type {
 	BrowserClient,
 	FirecrawlClient,
 	LighthouseClient,
+	PaymentClient,
 	TrustMrrClient,
 } from "@/external";
 import {
 	CloudflareAIClient,
 	CloudflareBrowserClient,
 	FirecrawlHttpClient,
+	PolarClient,
 	PsiLighthouseClient,
 	TrustMrrHttpClient,
 } from "@/external";
@@ -20,11 +22,13 @@ import {
 	PrerequisiteCacheRepo,
 	PrerequisiteResultsRepo,
 	PrerequisiteRunsRepo,
+	ReportPurchasesRepo,
 	ReportsRepo,
 } from "@/repos";
 import {
 	ModulesService,
 	PrerequisitesService,
+	PurchasesService,
 	ReportOrchestratorService,
 	ReportsService,
 } from "@/services";
@@ -40,6 +44,7 @@ export interface Container {
 		moduleRuns: ModuleRunsRepo;
 		prerequisiteRuns: PrerequisiteRunsRepo;
 		prerequisiteResults: PrerequisiteResultsRepo;
+		reportPurchases: ReportPurchasesRepo;
 		cache: CacheRepo;
 		moduleCache: ModuleCacheRepo;
 		prerequisiteCache: PrerequisiteCacheRepo;
@@ -50,12 +55,14 @@ export interface Container {
 		lighthouse: LighthouseClient;
 		firecrawl: FirecrawlClient;
 		trustMrr: TrustMrrClient;
+		payment: PaymentClient;
 	};
 	services: {
 		reports: ReportsService;
 		modules: ModulesService;
 		prerequisites: PrerequisitesService;
 		orchestrator: ReportOrchestratorService;
+		purchases: PurchasesService;
 	};
 }
 
@@ -68,11 +75,14 @@ export function buildContainer(env: CloudflareBindings): Container {
 		moduleRuns: new ModuleRunsRepo(db),
 		prerequisiteRuns: new PrerequisiteRunsRepo(db),
 		prerequisiteResults: new PrerequisiteResultsRepo(db),
+		reportPurchases: new ReportPurchasesRepo(db),
 		cache,
 		moduleCache: new ModuleCacheRepo(cache),
 		prerequisiteCache: new PrerequisiteCacheRepo(cache),
 	};
 
+	const polarServer: "production" | "sandbox" =
+		(env.POLAR_SERVER as string) === "production" ? "production" : "sandbox";
 	const external = {
 		browser: new CloudflareBrowserClient(env.BROWSER),
 		ai: new CloudflareAIClient(env.AI),
@@ -81,6 +91,12 @@ export function buildContainer(env: CloudflareBindings): Container {
 		),
 		firecrawl: new FirecrawlHttpClient({ apiKey: env.FIRECRAWL_API_KEY }),
 		trustMrr: new TrustMrrHttpClient({ apiKey: env.TRUSTMRR_API_KEY }),
+		payment: new PolarClient({
+			accessToken: env.POLAR_ACCESS_TOKEN,
+			webhookSecret: env.POLAR_WEBHOOK_SECRET,
+			productId: env.POLAR_PRODUCT_ID,
+			server: polarServer,
+		}),
 	};
 
 	const moduleRunWorkflow = env.MODULE_RUN_WF as unknown as Workflow<ModuleRunWorkflowParams>;
@@ -100,10 +116,22 @@ export function buildContainer(env: CloudflareBindings): Container {
 		moduleRunWorkflow,
 	);
 	const reports = new ReportsService(repos.reports, modules, prerequisites, orchestrator);
+	const purchases = new PurchasesService(
+		repos.reports,
+		repos.moduleRuns,
+		repos.moduleCache,
+		repos.reportPurchases,
+		orchestrator,
+		external.payment,
+		{
+			provider: "polar",
+			checkoutSuccessUrl: env.CHECKOUT_SUCCESS_URL,
+		},
+	);
 
 	return {
 		repos,
 		external,
-		services: { reports, modules, prerequisites, orchestrator },
+		services: { reports, modules, prerequisites, orchestrator, purchases },
 	};
 }

@@ -8,6 +8,7 @@
 	import Footer from './Footer.svelte';
 	import ReportOverview from './ReportOverview.svelte';
 	import ModuleList from './ModuleList.svelte';
+	import LockedSection from './LockedSection.svelte';
 	import PrerequisiteList from './PrerequisiteList.svelte';
 	import { ReportState } from '$lib/stores';
 	import { WarningCircle } from 'phosphor-svelte';
@@ -47,10 +48,13 @@
 				<p>{$_('report.loadError')}: {state.error}</p>
 			</Alert>
 		{:else if state.report}
+			{@const unlockedRuns = state.report.moduleRuns.filter((r) => r.status !== 'awaiting_payment')}
+			{@const lockedRuns = state.report.moduleRuns.filter((r) => r.status === 'awaiting_payment')}
 			<div class="space-y-16">
 				<ReportOverview report={state.report} />
 				<PrerequisiteList prerequisites={state.report.prerequisites} />
-				<ModuleList runs={state.report.moduleRuns} />
+				<ModuleList runs={unlockedRuns} />
+				<LockedSection reportId={state.report.id} runs={lockedRuns} />
 			</div>
 		{/if}
 	</main>

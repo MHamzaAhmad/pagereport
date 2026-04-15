@@ -8,6 +8,7 @@ import { registerModule } from "@/services/modules/registry";
 
 registerModule({
 	type: LIGHTHOUSE_MODULE_TYPE,
+	tier: "free",
 	cacheTtlMs: CACHE_MIN_TTL_MS,
 	resultSchema: lighthouseResultSchema,
 	run: runLighthouse,

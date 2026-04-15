@@ -7,5 +7,6 @@ export {
 	PrerequisiteRunsRepo,
 	type PrerequisiteRunWithResult,
 } from "@/repos/prerequisite-runs.repo";
+export { ReportPurchasesRepo } from "@/repos/report-purchases.repo";
 export type { Database } from "@/repos/reports.repo";
 export { ReportsRepo } from "@/repos/reports.repo";

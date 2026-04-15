@@ -3,6 +3,7 @@
 	import ModuleStatusBadge from './ModuleStatusBadge.svelte';
 	import ModulePendingSkeleton from './ModulePendingSkeleton.svelte';
 	import ModuleErrorState from './ModuleErrorState.svelte';
+	import FromCacheBadge from './FromCacheBadge.svelte';
 	import { getModuleRenderer } from './modules';
 	import type { ModuleRunResponse } from '$lib/types';
 
@@ -10,6 +11,9 @@
 	let { run }: Props = $props();
 
 	const renderer = $derived(getModuleRenderer(run.moduleType));
+	const showFromCacheBadge = $derived(
+		renderer?.tier === 'paid' && run.status === 'completed' && run.unlockedVia === 'cache'
+	);
 
 	const parsed = $derived.by(() => {
 		if (!renderer || run.status !== 'completed' || run.result === null) return null;
@@ -42,7 +46,10 @@
 				<p class="text-muted-foreground mt-2 text-sm">{$_('module.unknown.description')}</p>
 			{/if}
 		</div>
-		<div class="shrink-0 pt-2">
+		<div class="flex shrink-0 items-center gap-2 pt-2">
+			{#if showFromCacheBadge}
+				<FromCacheBadge />
+			{/if}
 			<ModuleStatusBadge status={run.status} />
 		</div>
 	</header>

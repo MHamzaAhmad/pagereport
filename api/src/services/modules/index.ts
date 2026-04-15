@@ -12,5 +12,12 @@ export type {
 	ModuleRunContext,
 	ModuleRunInput,
 	ModuleRunWorkflowParams,
+	ModuleTier,
 } from "@/services/modules/registry";
-export { getModule, listModules, registerModule } from "@/services/modules/registry";
+export {
+	getModule,
+	listFreeModules,
+	listModules,
+	listPaidModules,
+	registerModule,
+} from "@/services/modules/registry";

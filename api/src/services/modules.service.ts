@@ -23,6 +23,7 @@ export class ModulesService {
 			reportId: run.reportId,
 			moduleType: run.moduleType,
 			status: run.status,
+			unlockedVia: run.unlockedVia,
 			result: run.resultJson ? (JSON.parse(run.resultJson) as unknown) : null,
 			error: run.error,
 			startedAt: run.startedAt ? run.startedAt.toISOString() : null,

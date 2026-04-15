@@ -99,9 +99,21 @@ export class ReportOrchestratorService {
 					reportId,
 					moduleType: module.type,
 					status: "completed",
+					unlockedVia: "cache",
 					resultJson: JSON.stringify(cachedResult),
 					startedAt: now,
 					completedAt: now,
+				});
+				continue;
+			}
+
+			if (module.tier === "paid") {
+				console.log(`[orchestrator] module ${module.type}: paid, awaiting payment`);
+				await this.moduleRuns.insert({
+					id: crypto.randomUUID(),
+					reportId,
+					moduleType: module.type,
+					status: "awaiting_payment",
 				});
 				continue;
 			}
@@ -165,7 +177,7 @@ export class ReportOrchestratorService {
 		}
 	}
 
-	private async dispatchReady(reportId: string, url: string): Promise<void> {
+	async dispatchReady(reportId: string, url: string): Promise<void> {
 		const [prereqRuns, moduleRuns] = await Promise.all([
 			this.prerequisiteRuns.listByReportWithResults(reportId),
 			this.moduleRuns.listByReport(reportId),
@@ -208,6 +220,7 @@ export class ReportOrchestratorService {
 			const deps = module.dependsOn ?? [];
 			if (!deps.every((d) => completed.has(d))) continue;
 			const payload = buildPrereqResultsPayload(deps, completed);
+			const unlockedVia: "free" | "purchase" = run.unlockedVia === "purchase" ? "purchase" : "free";
 			console.log(`[orchestrator] module ${run.moduleType}: workflow dispatched`);
 			const instance = await this.moduleRunWorkflow.create({
 				id: run.id,
@@ -216,6 +229,7 @@ export class ReportOrchestratorService {
 					moduleRunId: run.id,
 					moduleType: run.moduleType,
 					url,
+					unlockedVia,
 					prerequisiteResults: payload,
 				},
 			});

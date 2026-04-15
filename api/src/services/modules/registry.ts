@@ -14,6 +14,7 @@ export interface ModuleRunWorkflowParams {
 	readonly moduleRunId: string;
 	readonly moduleType: string;
 	readonly url: string;
+	readonly unlockedVia: "free" | "purchase";
 	readonly prerequisiteResults: Record<string, unknown>;
 }
 
@@ -26,8 +27,11 @@ export interface ModuleRunContext {
 	readonly step: WorkflowStep;
 }
 
+export type ModuleTier = "free" | "paid";
+
 export interface AnalysisModule<TResult = unknown> {
 	readonly type: string;
+	readonly tier: ModuleTier;
 	readonly dependsOn?: readonly string[];
 	readonly resultSchema: z.ZodType<TResult>;
 	/**
@@ -58,4 +62,12 @@ export function getModule(type: string): AnalysisModule | undefined {
 
 export function listModules(): readonly AnalysisModule[] {
 	return [...registry.values()];
+}
+
+export function listPaidModules(): readonly AnalysisModule[] {
+	return [...registry.values()].filter((m) => m.tier === "paid");
+}
+
+export function listFreeModules(): readonly AnalysisModule[] {
+	return [...registry.values()].filter((m) => m.tier === "free");
 }

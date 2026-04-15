@@ -12,7 +12,7 @@ export class ModuleRunWorkflow extends WorkflowEntrypoint<
 		event: WorkflowEvent<ModuleRunWorkflowParams>,
 		step: WorkflowStep,
 	): Promise<void> {
-		const { moduleRunId, moduleType, url, prerequisiteResults } = event.payload;
+		const { moduleRunId, moduleType, url, unlockedVia, prerequisiteResults } = event.payload;
 		const container = buildContainer(this.env);
 		const moduleRunsRepo = container.repos.moduleRuns;
 		const moduleCacheRepo = container.repos.moduleCache;
@@ -44,7 +44,9 @@ export class ModuleRunWorkflow extends WorkflowEntrypoint<
 			await step.do("kv-cache-put", () =>
 				moduleCacheRepo.put(moduleType, normalizeUrl(url), validated, module.cacheTtlMs),
 			);
-			await step.do("mark-completed", () => moduleRunsRepo.markCompleted(moduleRunId, validated));
+			await step.do("mark-completed", () =>
+				moduleRunsRepo.markCompleted(moduleRunId, validated, unlockedVia),
+			);
 		} catch (err) {
 			const message = err instanceof Error ? err.message : String(err);
 			await step.do("mark-failed", () => moduleRunsRepo.markFailed(moduleRunId, message));

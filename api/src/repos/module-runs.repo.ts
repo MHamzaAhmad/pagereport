@@ -1,6 +1,7 @@
 import { and, asc, eq } from "drizzle-orm";
 import type { ModuleRun, NewModuleRun } from "@/domain/models";
 import { moduleRuns } from "@/domain/schema";
+import type { ModuleRunUnlockedVia } from "@/domain/schema/module-runs";
 import type { Database } from "@/repos/reports.repo";
 
 export class ModuleRunsRepo {
@@ -36,6 +37,14 @@ export class ModuleRunsRepo {
 			.orderBy(asc(moduleRuns.createdAt));
 	}
 
+	async listAwaitingPaymentByReport(reportId: string): Promise<ModuleRun[]> {
+		return this.db
+			.select()
+			.from(moduleRuns)
+			.where(and(eq(moduleRuns.reportId, reportId), eq(moduleRuns.status, "awaiting_payment")))
+			.orderBy(asc(moduleRuns.createdAt));
+	}
+
 	async setWorkflowInstanceId(id: string, workflowInstanceId: string): Promise<void> {
 		await this.db
 			.update(moduleRuns)
@@ -51,12 +60,17 @@ export class ModuleRunsRepo {
 			.where(eq(moduleRuns.id, id));
 	}
 
-	async markCompleted(id: string, result: unknown): Promise<void> {
+	async markCompleted(
+		id: string,
+		result: unknown,
+		unlockedVia: ModuleRunUnlockedVia,
+	): Promise<void> {
 		const now = new Date();
 		await this.db
 			.update(moduleRuns)
 			.set({
 				status: "completed",
+				unlockedVia,
 				resultJson: JSON.stringify(result),
 				error: null,
 				completedAt: now,
@@ -71,5 +85,13 @@ export class ModuleRunsRepo {
 			.update(moduleRuns)
 			.set({ status: "failed", error, completedAt: now, updatedAt: now })
 			.where(eq(moduleRuns.id, id));
+	}
+
+	async flipAwaitingPaymentToPending(id: string): Promise<void> {
+		const now = new Date();
+		await this.db
+			.update(moduleRuns)
+			.set({ status: "pending", unlockedVia: "purchase", updatedAt: now })
+			.where(and(eq(moduleRuns.id, id), eq(moduleRuns.status, "awaiting_payment")));
 	}
 }

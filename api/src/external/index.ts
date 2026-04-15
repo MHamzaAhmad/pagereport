@@ -21,6 +21,15 @@ export type {
 } from "@/external/lighthouse/lighthouse.client";
 export { PsiLighthouseClient } from "@/external/lighthouse/psi-lighthouse.client";
 export type {
+	CreateCheckoutInput,
+	CreateCheckoutResult,
+	PaymentClient,
+	PaymentWebhookEvent,
+	PaymentWebhookEventType,
+} from "@/external/payment/payment.client";
+export { PaymentWebhookVerificationError } from "@/external/payment/payment.client";
+export { PolarClient, type PolarClientOptions } from "@/external/payment/polar.client";
+export type {
 	TrustMrrClient,
 	TrustMrrListInput,
 	TrustMrrListResult,

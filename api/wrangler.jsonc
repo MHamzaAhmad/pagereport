@@ -62,7 +62,17 @@
 		// API key for the revenue-verified startup data source used by the
 		// top_performers module. Set in production with
 		// `wrangler secret put TRUSTMRR_API_KEY`.
-		"TRUSTMRR_API_KEY": ""
+		"TRUSTMRR_API_KEY": "",
+		// Polar.sh credentials for paid-module unlock. Set in production with
+		// `wrangler secret put POLAR_ACCESS_TOKEN` and
+		// `wrangler secret put POLAR_WEBHOOK_SECRET`.
+		"POLAR_ACCESS_TOKEN": "",
+		"POLAR_WEBHOOK_SECRET": "",
+		"POLAR_PRODUCT_ID": "",
+		"POLAR_SERVER": "sandbox",
+		// Redirect URL after successful checkout. May include the literal
+		// `{reportId}` placeholder which is substituted at checkout creation.
+		"CHECKOUT_SUCCESS_URL": "http://localhost:5173/reports/{reportId}?purchase=success"
 	}
 	/**
 	 * Smart Placement

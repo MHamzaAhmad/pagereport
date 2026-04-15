@@ -9,6 +9,7 @@ import { PAGE_SCRAPE_PREREQ_TYPE } from "@/services/prerequisites/page-scrape/re
 
 registerModule({
 	type: TECHNICAL_SEO_MODULE_TYPE,
+	tier: "paid",
 	dependsOn: [PAGE_SCRAPE_PREREQ_TYPE],
 	cacheTtlMs: CACHE_MIN_TTL_MS,
 	resultSchema: technicalSeoResultSchema,

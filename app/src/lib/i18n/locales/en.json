@@ -40,6 +40,7 @@
 		"status": {
 			"pending": "Queued",
 			"awaiting_prerequisites": "Waiting",
+			"awaiting_payment": "Locked",
 			"running": "Running",
 			"completed": "Ready",
 			"failed": "Failed"
@@ -85,9 +86,24 @@
 		}
 	},
 	"modules": {
+		"tiers": {
+			"paid": {
+				"readyToUnlock": "Ready to unlock",
+				"cacheHint": "Free if this URL is already in our 1h cache",
+				"cacheHintTooltip": "We keep audit results for any URL we've analysed in the last hour. If another user recently ran this same URL, we'll unlock every paid module for free — no payment needed.",
+				"fromCacheBadge": "Free — from cache",
+				"fromCacheTooltip": "This module was already generated for this URL in the last hour, so you didn't have to pay for it.",
+				"bundleTitle": "Unlock {count} deep-dive audits",
+				"bundleSubtitle": "Full conversion audit. One-time payment. Cached unlocks stay free.",
+				"unlockCta": "Unlock all insights",
+				"unlockCtaLoading": "Starting checkout…",
+				"checkoutError": "We couldn't start checkout. Please try again."
+			}
+		},
 		"copyAnalysis": {
 			"label": "Copy & conversion analysis",
 			"description": "A CRO read on your page's words — is your copy naming the visitor's problem and guiding them to a solution, or just describing your product?",
+			"paidHook": "Your headlines, value prop and CTAs decide every sale. See exactly which lines are killing conversions — and the paste-ready rewrites to fix them.",
 			"overall": {
 				"scoreLabel": "Overall copy score",
 				"scoreTooltip": "A blended score across headline clarity, value proposition, problem framing, CTAs, proof, reader-centricity, specificity, and objection handling. Higher is better.",
@@ -210,6 +226,7 @@
 		"ctaAudit": {
 			"label": "CTA audit",
 			"description": "A quick check on your primary call-to-action — is it visible above the fold, and does its link actually go somewhere?",
+			"paidHook": "Your CTAs decide every sale. Pinpoint the buttons costing you revenue and the exact wording and placement to fix them.",
 			"overall": {
 				"heading": "CTA status",
 				"status": {
@@ -267,6 +284,7 @@
 		"technicalSeo": {
 			"label": "Technical SEO",
 			"description": "Checks the invisible tags that control how your page appears on Google, Facebook, and Twitter — title, meta description, og:image, and more.",
+			"paidHook": "Google is quietly penalising issues on this page right now. See every one, ranked by impact — plus quick-win fixes you can ship today.",
 			"overall": {
 				"heading": "SEO health",
 				"score": "Score",
@@ -439,6 +457,7 @@
 		"topPerformers": {
 			"label": "Top performers in your niche",
 			"description": "Pages in your space that are already converting — study what's working for them.",
+			"paidHook": "Benchmarked against the dropshippers who are actually winning in your niche — see their pages, copy what works.",
 			"header": {
 				"title": "Top performers in your niche",
 				"subtitle": "Real pages you can draw inspiration from — we picked ones that are demonstrably converting in your space.",
@@ -470,6 +489,7 @@
 		"trustSocialProofAudit": {
 			"label": "Trust & social proof audit",
 			"description": "Visitors don't buy from pages they don't trust. We scan your full page — top to bottom — for testimonials, reviews, badges, guarantees, and social proof, then flag what's missing.",
+			"paidHook": "Buyers need proof before they click Buy. See every trust signal you're missing — and the ones that are actively hurting you.",
 			"overall": {
 				"scoreLabel": "Trust score",
 				"scoreTooltip": "How trustworthy your page feels at a glance. Weighted by the signals that actually move dropshipping conversion rates: reviews and testimonials first, then guarantees, badges, and social proof. Red flags (fake urgency, broken badges) subtract.",

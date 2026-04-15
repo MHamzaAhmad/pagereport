@@ -4,6 +4,7 @@ import { LIGHTHOUSE_MODULE_TYPE, lighthouseResultSchema } from './schema';
 
 registerModule({
 	moduleType: LIGHTHOUSE_MODULE_TYPE,
+	tier: 'free',
 	labelKey: 'modules.lighthouse.label',
 	descriptionKey: 'modules.lighthouse.description',
 	priority: 70,

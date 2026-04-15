@@ -1,6 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { createReportInput } from "@/domain/api";
+import { NothingToUnlockError, ReportNotFoundError } from "@/services";
 import type { AppEnv } from "@/transport/http/types";
 
 export const reportsRouter = new Hono<AppEnv>()
@@ -26,4 +27,20 @@ export const reportsRouter = new Hono<AppEnv>()
 			return c.json({ error: "not found" }, 404);
 		}
 		return c.json(modules.toResponse(run));
+	})
+	.post("/:id/purchase", async (c) => {
+		const reportId = c.req.param("id");
+		const { purchases } = c.var.container.services;
+		try {
+			const result = await purchases.createCheckout(reportId);
+			return c.json(result, 201);
+		} catch (err) {
+			if (err instanceof ReportNotFoundError) {
+				return c.json({ error: "report not found" }, 404);
+			}
+			if (err instanceof NothingToUnlockError) {
+				return c.json({ error: "nothing to unlock" }, 400);
+			}
+			throw err;
+		}
 	});

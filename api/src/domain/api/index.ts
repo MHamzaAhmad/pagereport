@@ -2,12 +2,17 @@ export {
 	type ModuleRunResponse,
 	moduleRunResponse,
 	moduleRunStatusSchema,
+	moduleRunUnlockedViaSchema,
 } from "@/domain/api/module-runs.dto";
 export {
 	type PrerequisiteRunResponse,
 	prerequisiteRunResponse,
 	prerequisiteRunStatusSchema,
 } from "@/domain/api/prerequisite-runs.dto";
+export {
+	type CreateCheckoutResponse,
+	createCheckoutResponse,
+} from "@/domain/api/purchases.dto";
 export {
 	type CreateReportInput,
 	createReportInput,

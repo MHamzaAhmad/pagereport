@@ -1,13 +1,15 @@
 import { z } from "zod";
-import { moduleRunStatusValues } from "@/domain/schema/module-runs";
+import { moduleRunStatusValues, moduleRunUnlockedViaValues } from "@/domain/schema/module-runs";
 
 export const moduleRunStatusSchema = z.enum(moduleRunStatusValues);
+export const moduleRunUnlockedViaSchema = z.enum(moduleRunUnlockedViaValues);
 
 export const moduleRunResponse = z.object({
 	id: z.string(),
 	reportId: z.string(),
 	moduleType: z.string(),
 	status: moduleRunStatusSchema,
+	unlockedVia: moduleRunUnlockedViaSchema.nullable(),
 	result: z.unknown().nullable(),
 	error: z.string().nullable(),
 	startedAt: z.string().nullable(),

@@ -9,6 +9,7 @@ import { PAGE_INTELLIGENCE_PREREQ_TYPE } from "@/services/prerequisites/page-int
 
 registerModule({
 	type: TOP_PERFORMERS_MODULE_TYPE,
+	tier: "paid",
 	dependsOn: [PAGE_INTELLIGENCE_PREREQ_TYPE],
 	cacheTtlMs: CACHE_MIN_TTL_MS,
 	resultSchema: topPerformersResultSchema,

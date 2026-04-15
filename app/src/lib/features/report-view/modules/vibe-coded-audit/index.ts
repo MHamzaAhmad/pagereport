@@ -4,6 +4,7 @@ import { VIBE_CODED_AUDIT_MODULE_TYPE, vibeCodedAuditResultSchema } from './sche
 
 registerModule({
 	moduleType: VIBE_CODED_AUDIT_MODULE_TYPE,
+	tier: 'free',
 	labelKey: 'modules.vibeCodedAudit.label',
 	descriptionKey: 'modules.vibeCodedAudit.description',
 	priority: 10,

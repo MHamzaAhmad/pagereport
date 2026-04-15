@@ -4,6 +4,7 @@ import { FIVE_SEC_TEST_MODULE_TYPE, fiveSecTestResultSchema } from './schema';
 
 registerModule({
 	moduleType: FIVE_SEC_TEST_MODULE_TYPE,
+	tier: 'free',
 	labelKey: 'modules.fiveSecTest.label',
 	descriptionKey: 'modules.fiveSecTest.description',
 	priority: 20,

@@ -10,6 +10,7 @@ import { PAGE_SCRAPE_PREREQ_TYPE } from "@/services/prerequisites/page-scrape/re
 
 registerModule({
 	type: VIBE_CODED_AUDIT_MODULE_TYPE,
+	tier: "free",
 	dependsOn: [PAGE_SCRAPE_PREREQ_TYPE, PAGE_INTELLIGENCE_PREREQ_TYPE],
 	cacheTtlMs: CACHE_MIN_TTL_MS,
 	resultSchema: vibeCodedAuditResultSchema,
