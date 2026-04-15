@@ -32,7 +32,7 @@
 
 <form class="w-full space-y-3" onsubmit={handleSubmit}>
 	<div
-		class="border-border bg-surface focus-within:border-foreground hover:border-muted-foreground/40 flex items-center gap-1 rounded-[var(--radius-md)] border p-1.5 transition-colors focus-within:hover:border-[var(--color-foreground)]"
+		class="border-border bg-surface focus-within:border-foreground hover:border-muted-foreground/40 flex items-center gap-1 rounded-full border p-1.5 pl-2 transition-colors focus-within:hover:border-[var(--color-foreground)]"
 	>
 		<input
 			id="report-url-hero"
@@ -44,7 +44,7 @@
 			disabled={form.isSubmitting}
 			required
 			aria-label={$_('home.urlPlaceholder')}
-			class="text-foreground placeholder:text-subtle h-11 min-w-0 flex-1 bg-transparent px-3 text-base outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			class="text-foreground placeholder:text-subtle h-11 min-w-0 flex-1 bg-transparent px-3 text-base outline-none focus-visible:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 		/>
 		<Button type="submit" size="md" disabled={!form.canSubmit} class="shrink-0">
 			{form.isSubmitting ? $_('home.submitting') : $_('home.submit')}

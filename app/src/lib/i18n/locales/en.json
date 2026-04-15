@@ -10,7 +10,7 @@
 		"submit": "Analyze page",
 		"submitting": "Starting report…",
 		"urlInvalid": "Please enter a valid URL starting with http:// or https://",
-		"urlTooltip": "Paste the exact page a visitor would see — usually the one you link in ads.",
+		"urlTooltip": "No credit card required, try for free. Paste the exact page a visitor would see.",
 		"rateLimited": "You've hit the limit of 3 reports per hour. Please try again later."
 	},
 	"turnstile": {

@@ -11,9 +11,9 @@
 				danger: 'bg-danger text-danger-foreground hover:brightness-110'
 			},
 			size: {
-				sm: 'h-8 rounded-[var(--radius-sm)] px-3 text-xs',
-				md: 'h-10 rounded-[var(--radius-md)] px-4 text-sm',
-				lg: 'h-12 rounded-[var(--radius-md)] px-6 text-sm'
+				sm: 'h-8 rounded-full px-3.5 text-xs',
+				md: 'h-10 rounded-full px-5 text-sm',
+				lg: 'h-12 rounded-full px-6 text-sm'
 			}
 		},
 		defaultVariants: {
