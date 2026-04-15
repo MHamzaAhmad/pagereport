@@ -106,7 +106,7 @@
 				"fromCacheTooltip": "This module was already generated for this URL in the last hour, so you didn't have to pay for it.",
 				"bundleTitle": "Unlock {count} deep-dive audits",
 				"bundleSubtitle": "Full conversion audit. One-time payment. Cached unlocks stay free.",
-				"unlockCta": "Unlock all insights",
+				"unlockCta": "Unlock for $5",
 				"unlockCtaLoading": "Starting checkout…",
 				"checkoutError": "We couldn't start checkout. Please try again."
 			}
