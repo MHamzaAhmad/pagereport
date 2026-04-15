@@ -64,9 +64,132 @@
 					"tooltip": "Products or offerings detected on this page."
 				}
 			}
+		},
+		"copyOutline": {
+			"label": "Copy outline",
+			"description": "The structured skeleton of the page — headings, CTAs, and sections — parsed from its content."
 		}
 	},
 	"modules": {
+		"copyAnalysis": {
+			"label": "Copy & conversion analysis",
+			"description": "A CRO read on your page's words — is your copy naming the visitor's problem and guiding them to a solution, or just describing your product?",
+			"overall": {
+				"scoreLabel": "Overall copy score",
+				"scoreTooltip": "A blended score across headline clarity, value proposition, problem framing, CTAs, proof, reader-centricity, specificity, and objection handling. Higher is better.",
+				"strengthLabel": {
+					"strong": "Strong",
+					"needsWork": "Needs work",
+					"weak": "Weak"
+				}
+			},
+			"framing": {
+				"label": "Framing",
+				"tooltip": "How the page positions itself. Problem→solution pages convert meaningfully better than product-first pages for cold traffic.",
+				"problem_solution": "Problem → solution",
+				"product_first": "Product-first",
+				"mixed": "Mixed",
+				"unclear": "Unclear"
+			},
+			"extracted": {
+				"heading": "What we read on your page",
+				"subtitle": "The lines we extracted as the core of your pitch. If these don't match what you meant, the page isn't communicating it clearly.",
+				"headline": "Headline",
+				"subheadline": "Subheadline",
+				"valueProp": "Value proposition",
+				"cta": "Primary CTA",
+				"missing": "Not found"
+			},
+			"storyBrand": {
+				"heading": "Is the visitor the hero?",
+				"subtitle": "Five checks from the StoryBrand framework. Pages where the visitor is the hero — not the founder — convert far better.",
+				"userIsHero": {
+					"label": "Visitor is the hero",
+					"tooltip": "The reader, not you or the product, is the protagonist of the copy."
+				},
+				"painNamed": {
+					"label": "Pain is named",
+					"tooltip": "The concrete problem the visitor is experiencing is stated in their own words."
+				},
+				"stakesClear": {
+					"label": "Stakes are clear",
+					"tooltip": "The cost of not solving the problem is made real — time lost, money lost, feelings felt."
+				},
+				"guideRole": {
+					"label": "You play the guide",
+					"tooltip": "The product is positioned as a tool/guide helping the visitor win, not as the hero themselves."
+				},
+				"planClear": {
+					"label": "Plan is clear",
+					"tooltip": "The visitor can see what to do next in 1-3 simple steps."
+				},
+				"score": {
+					"0": "Missing",
+					"1": "Weak",
+					"2": "Strong"
+				}
+			},
+			"dimensions": {
+				"heading": "Copy dimensions",
+				"subtitle": "Eight conversion fundamentals, scored from 0 to 5.",
+				"headline_clarity": {
+					"label": "Headline clarity",
+					"tooltip": "Is the headline specific, benefit-led, and understandable in 5 seconds?"
+				},
+				"value_prop": {
+					"label": "Value proposition",
+					"tooltip": "Is there a clear, differentiated promise of value the visitor gets?"
+				},
+				"problem_framing": {
+					"label": "Problem framing",
+					"tooltip": "Does the copy name the visitor's pain before pitching the solution?"
+				},
+				"cta_strength": {
+					"label": "CTA strength",
+					"tooltip": "Are CTAs action-verb-led, value-laden, specific, and unambiguous?"
+				},
+				"proof": {
+					"label": "Proof & credibility",
+					"tooltip": "Is there credible social proof — testimonials, numbers, logos, or authority markers?"
+				},
+				"reader_centricity": {
+					"label": "Reader-centricity",
+					"tooltip": "Does the copy speak to \"you\" rather than \"we/I/our product\"?"
+				},
+				"specificity": {
+					"label": "Specificity",
+					"tooltip": "Concrete numbers, names, timeframes — versus vague marketing claims."
+				},
+				"objection_handling": {
+					"label": "Objection handling",
+					"tooltip": "Are common buyer objections anticipated and answered on the page?"
+				},
+				"severity": {
+					"critical": "Critical",
+					"warning": "Warning",
+					"info": "Info",
+					"ok": "Good"
+				},
+				"finding": "What we found",
+				"suggestion": "What to do",
+				"exampleRewrite": "Example rewrite"
+			},
+			"strengths": {
+				"heading": "What's working"
+			},
+			"criticalIssues": {
+				"heading": "Biggest blockers"
+			},
+			"quickWins": {
+				"heading": "Quick-win rewrites",
+				"subtitle": "Paste-ready rewrites for the lines that are costing you the most conversions.",
+				"before": "Current",
+				"after": "Rewrite to",
+				"rationale": "Why",
+				"location": "Where",
+				"empty": "No obvious quick wins — the copy issues here need a deeper rewrite."
+			}
+		},
 		"fiveSecTest": {
 			"label": "5-Second Test",
 			"description": "Simulates a first-time visitor's 5-second glance at your page.",

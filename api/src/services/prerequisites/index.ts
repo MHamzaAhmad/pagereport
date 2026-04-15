@@ -1,5 +1,6 @@
 import "@/services/prerequisites/page-scrape/prerequisite";
 import "@/services/prerequisites/page-intelligence/prerequisite";
+import "@/services/prerequisites/copy-outline/prerequisite";
 
 export type {
 	Prerequisite,

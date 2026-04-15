@@ -1,3 +1,4 @@
+import './copy-analysis';
 import './five-sec-test';
 import './lighthouse';
 import './top-performers';
