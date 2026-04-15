@@ -5,11 +5,11 @@ import type {
 	VisionDescribeOptions,
 } from "@/external/ai/ai.client";
 
-const VISION_MODEL = "@cf/meta/llama-3.2-11b-vision-instruct";
+const VISION_MODEL = "@cf/google/gemma-4-26b-a4b-it";
 const TEXT_MODEL = "@cf/zai-org/glm-4.7-flash";
 const DEFAULT_MAX_TOKENS = 1024;
 const DEFAULT_TEMPERATURE = 0.2;
-const EXTRACT_MAX_TOKENS = 10000;
+const EXTRACT_MAX_TOKENS = 2096;
 const EXTRACT_TEMPERATURE = 0;
 const DEFAULT_SCHEMA_NAME = "result";
 
@@ -86,7 +86,10 @@ export class CloudflareAIClient implements AIClient {
 					schema: jsonSchema,
 					strict: true,
 				},
-			},
+      },
+      chat_template_kwargs: {
+        enable_thinking: false
+      }
 		});
 		const text = extractText(raw);
 		const parsed: unknown = JSON.parse(text);
