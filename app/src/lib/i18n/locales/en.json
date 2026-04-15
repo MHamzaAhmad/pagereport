@@ -37,6 +37,12 @@
 		"showMore": "Show more",
 		"showLess": "Show less"
 	},
+	"theme": {
+		"toggleToDark": "Switch to dark mode",
+		"toggleToLight": "Switch to light mode",
+		"light": "Light",
+		"dark": "Dark"
+	},
 	"footer": {
 		"rights": "© {year} PageReport. All rights reserved.",
 		"support": "Support"

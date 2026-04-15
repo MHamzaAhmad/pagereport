@@ -7,6 +7,8 @@
 @import '@fontsource/instrument-serif/400.css';
 @import '@fontsource/instrument-serif/400-italic.css';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
 	--color-bg: oklch(0.99 0.003 250);
 	--color-surface: oklch(1 0 0);
@@ -31,6 +33,22 @@
 	--font-serif: 'Instrument Serif', ui-serif, Georgia, 'Times New Roman', serif;
 }
 
+html.dark {
+	--color-bg: oklch(0.16 0.01 260);
+	--color-surface: oklch(0.2 0.012 260);
+	--color-border: oklch(0.28 0.01 260);
+	--color-muted: oklch(0.22 0.01 260);
+	--color-muted-foreground: oklch(0.68 0.012 260);
+	--color-subtle: oklch(0.5 0.01 260);
+	--color-foreground: oklch(0.96 0.005 260);
+	--color-primary: oklch(0.72 0.18 265);
+	--color-primary-foreground: oklch(0.14 0.01 260);
+	--color-danger: oklch(0.68 0.2 25);
+	--color-danger-foreground: oklch(0.14 0.01 260);
+	--color-success: oklch(0.72 0.16 155);
+	--color-warning: oklch(0.82 0.14 85);
+}
+
 html,
 body {
 	height: 100%;
@@ -40,6 +58,23 @@ body {
 	font-feature-settings: 'cv11', 'ss01';
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
+	transition:
+		background-color 400ms ease,
+		color 400ms ease;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+	z-index: 1;
+}
+
+::view-transition-new(root) {
+	z-index: 2;
 }
 
 .font-serif {

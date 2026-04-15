@@ -5,6 +5,7 @@
 	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
 	import Button from '$lib/components/ui/Button.svelte';
 	import Input from '$lib/components/ui/Input.svelte';
+	import ThemeToggle from '$lib/features/theme/ThemeToggle.svelte';
 	import TurnstileWidget from '$lib/features/turnstile/TurnstileWidget.svelte';
 	import { ArrowRight } from 'phosphor-svelte';
 	import { CreateReportForm } from '$lib/features/report-input/use-create-report.svelte';
@@ -25,7 +26,7 @@
 </script>
 
 <header
-	class="border-border sticky top-0 z-40 border-b backdrop-blur-md supports-[backdrop-filter]:bg-[color:oklch(0.99_0.003_250/0.8)]"
+	class="border-border sticky top-0 z-40 border-b backdrop-blur-md supports-[backdrop-filter]:bg-[color-mix(in_oklch,var(--color-bg)_80%,transparent)]"
 >
 	<div class="mx-auto flex max-w-3xl flex-col gap-2 px-4 py-3">
 		<div class="flex items-center gap-4 sm:gap-6">
@@ -60,6 +61,7 @@
 					<ArrowRight size={16} weight="bold" />
 				</Button>
 			</form>
+			<ThemeToggle />
 		</div>
 		{#if turnstileEnabled}
 			<div class="flex justify-end">
