@@ -5,11 +5,7 @@ import {
 } from "@/services/modules/lighthouse/result.schema";
 import type { ModuleRunContext, ModuleRunInput } from "@/services/modules/registry";
 
-const AUDIT_CATEGORIES: readonly LighthouseCategory[] = [
-	"performance",
-	"seo",
-	"accessibility",
-];
+const AUDIT_CATEGORIES: readonly LighthouseCategory[] = ["performance", "seo", "accessibility"];
 
 export async function runLighthouse(
 	{ url }: ModuleRunInput,

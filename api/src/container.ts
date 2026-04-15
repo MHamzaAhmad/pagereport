@@ -1,29 +1,47 @@
 import { drizzle } from "drizzle-orm/d1";
-import type { AIClient, BrowserClient, LighthouseClient } from "@/external";
+import type { AIClient, BrowserClient, FirecrawlClient, LighthouseClient } from "@/external";
 import {
 	CloudflareAIClient,
 	CloudflareBrowserClient,
+	FirecrawlHttpClient,
 	PsiLighthouseClient,
 } from "@/external";
-import { ModuleRunsRepo, ReportsRepo } from "@/repos";
-import { ModulesService, ReportsService } from "@/services";
-// Side-effect import: registers all AnalysisModule entries into the registry.
+import {
+	ModuleRunsRepo,
+	PrerequisiteResultsRepo,
+	PrerequisiteRunsRepo,
+	ReportsRepo,
+} from "@/repos";
+import {
+	ModulesService,
+	PrerequisitesService,
+	ReportOrchestratorService,
+	ReportsService,
+} from "@/services";
+// Side-effect imports: registers all AnalysisModule / Prerequisite entries.
 import "@/services/modules";
+import "@/services/prerequisites";
 import type { ModuleRunWorkflowParams } from "@/services/modules/registry";
+import type { PrerequisiteRunWorkflowParams } from "@/services/prerequisites/registry";
 
 export interface Container {
 	repos: {
 		reports: ReportsRepo;
 		moduleRuns: ModuleRunsRepo;
+		prerequisiteRuns: PrerequisiteRunsRepo;
+		prerequisiteResults: PrerequisiteResultsRepo;
 	};
 	external: {
 		browser: BrowserClient;
 		ai: AIClient;
 		lighthouse: LighthouseClient;
+		firecrawl: FirecrawlClient;
 	};
 	services: {
 		reports: ReportsService;
 		modules: ModulesService;
+		prerequisites: PrerequisitesService;
+		orchestrator: ReportOrchestratorService;
 	};
 }
 
@@ -33,6 +51,8 @@ export function buildContainer(env: CloudflareBindings): Container {
 	const repos = {
 		reports: new ReportsRepo(db),
 		moduleRuns: new ModuleRunsRepo(db),
+		prerequisiteRuns: new PrerequisiteRunsRepo(db),
+		prerequisiteResults: new PrerequisiteResultsRepo(db),
 	};
 
 	const external = {
@@ -41,15 +61,28 @@ export function buildContainer(env: CloudflareBindings): Container {
 		lighthouse: new PsiLighthouseClient(
 			env.PAGESPEED_API_KEY ? { apiKey: env.PAGESPEED_API_KEY } : {},
 		),
+		firecrawl: new FirecrawlHttpClient({ apiKey: env.FIRECRAWL_API_KEY }),
 	};
 
 	const moduleRunWorkflow = env.MODULE_RUN_WF as unknown as Workflow<ModuleRunWorkflowParams>;
-	const modules = new ModulesService(repos.moduleRuns, moduleRunWorkflow);
-	const reports = new ReportsService(repos.reports, modules);
+	const prerequisiteRunWorkflow =
+		env.PREREQUISITE_RUN_WF as unknown as Workflow<PrerequisiteRunWorkflowParams>;
+
+	const modules = new ModulesService(repos.moduleRuns);
+	const prerequisites = new PrerequisitesService(repos.prerequisiteRuns);
+	const orchestrator = new ReportOrchestratorService(
+		repos.reports,
+		repos.prerequisiteResults,
+		repos.prerequisiteRuns,
+		repos.moduleRuns,
+		prerequisiteRunWorkflow,
+		moduleRunWorkflow,
+	);
+	const reports = new ReportsService(repos.reports, modules, prerequisites, orchestrator);
 
 	return {
 		repos,
 		external,
-		services: { reports, modules },
+		services: { reports, modules, prerequisites, orchestrator },
 	};
 }

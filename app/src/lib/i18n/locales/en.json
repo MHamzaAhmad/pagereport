@@ -25,11 +25,13 @@
 	"module": {
 		"status": {
 			"pending": "Queued",
+			"awaiting_prerequisites": "Waiting",
 			"running": "Running",
 			"completed": "Ready",
 			"failed": "Failed"
 		},
 		"pendingHint": "Waiting for workers to pick this up.",
+		"awaitingPrerequisitesHint": "Waiting for required context (page content, AI analysis) to finish before this check can run.",
 		"runningHint": "Analyzing your page. This usually takes 30-60 seconds.",
 		"failed": {
 			"title": "This module failed",
@@ -38,6 +40,30 @@
 		"unknown": {
 			"title": "Unknown module",
 			"description": "This module type isn't registered in the frontend yet."
+		}
+	},
+	"prerequisites": {
+		"pageIntelligence": {
+			"label": "Page intelligence",
+			"description": "What the page is about, who it targets, and what it's selling — extracted from its content.",
+			"fields": {
+				"niche": {
+					"label": "Niche",
+					"tooltip": "The market or audience this page is targeting."
+				},
+				"summary": {
+					"label": "Summary",
+					"tooltip": "A short description of what this page is and who it's for."
+				},
+				"keywords": {
+					"label": "Keywords",
+					"tooltip": "Key terms and phrases that describe what this page is about."
+				},
+				"products": {
+					"label": "Products",
+					"tooltip": "Products or offerings detected on this page."
+				}
+			}
 		}
 	},
 	"modules": {

@@ -1,6 +1,7 @@
 import type { WorkflowStep } from "cloudflare:workers";
 import type { z } from "zod";
 import type { AIClient, BrowserClient, LighthouseClient } from "@/external";
+import type { PrerequisiteResults } from "@/services/prerequisites/registry";
 
 export interface ModuleRunInput {
 	readonly url: string;
@@ -12,17 +13,20 @@ export interface ModuleRunWorkflowParams {
 	readonly moduleRunId: string;
 	readonly moduleType: string;
 	readonly url: string;
+	readonly prerequisiteResults: Record<string, unknown>;
 }
 
 export interface ModuleRunContext {
 	readonly browser: BrowserClient;
 	readonly ai: AIClient;
 	readonly lighthouse: LighthouseClient;
+	readonly prerequisites: PrerequisiteResults;
 	readonly step: WorkflowStep;
 }
 
 export interface AnalysisModule<TResult = unknown> {
 	readonly type: string;
+	readonly dependsOn?: readonly string[];
 	readonly resultSchema: z.ZodType<TResult>;
 	run(input: ModuleRunInput, ctx: ModuleRunContext): Promise<TResult>;
 }

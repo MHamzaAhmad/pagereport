@@ -5,6 +5,7 @@ import { containerMiddleware } from "@/transport/middleware/container";
 import { corsMiddleware } from "@/transport/middleware/cors";
 
 export { ModuleRunWorkflow } from "@/workflows/module-run.workflow";
+export { PrerequisiteRunWorkflow } from "@/workflows/prerequisite-run.workflow";
 
 const app = new Hono<AppEnv>();
 

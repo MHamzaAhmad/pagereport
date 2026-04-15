@@ -45,7 +45,7 @@
 	</header>
 
 	<div class="flex-1">
-		{#if run.status === 'pending' || run.status === 'running'}
+		{#if run.status === 'pending' || run.status === 'running' || run.status === 'awaiting_prerequisites'}
 			<ModulePendingSkeleton status={run.status} />
 		{:else if run.status === 'failed'}
 			<ModuleErrorState message={run.error} />

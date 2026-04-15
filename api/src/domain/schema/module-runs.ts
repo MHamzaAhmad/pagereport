@@ -2,7 +2,13 @@ import { relations, sql } from "drizzle-orm";
 import { index, integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 import { reports } from "@/domain/schema/reports";
 
-export const moduleRunStatusValues = ["pending", "running", "completed", "failed"] as const;
+export const moduleRunStatusValues = [
+	"pending",
+	"awaiting_prerequisites",
+	"running",
+	"completed",
+	"failed",
+] as const;
 export type ModuleRunStatus = (typeof moduleRunStatusValues)[number];
 
 export const moduleRuns = sqliteTable(

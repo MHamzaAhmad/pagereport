@@ -156,9 +156,7 @@ export class PsiLighthouseClient implements LighthouseClient {
 			});
 		}
 
-		opportunities.sort(
-			(a, b) => (b.estimatedSavingsMs ?? 0) - (a.estimatedSavingsMs ?? 0),
-		);
+		opportunities.sort((a, b) => (b.estimatedSavingsMs ?? 0) - (a.estimatedSavingsMs ?? 0));
 		return opportunities.slice(0, MAX_OPPORTUNITIES);
 	}
 }

@@ -3,43 +3,56 @@ import {
 	fiveSecTestResultSchema,
 } from "@/services/modules/five-sec-test/result.schema";
 import type { ModuleRunContext, ModuleRunInput } from "@/services/modules/registry";
+import {
+	PAGE_INTELLIGENCE_PREREQ_TYPE,
+	pageIntelligenceResultSchema,
+} from "@/services/prerequisites/page-intelligence/result.schema";
 
-const FIVE_SEC_PROMPT = `You are simulating a first-time visitor's 5-second impression of a web page.
-Look at the attached screenshot and answer as if you had only 5 seconds to form an opinion.
+function buildVisionPrompt(niche: string, keywords: readonly string[]): string {
+	const niceKeywords = keywords.slice(0, 8).join(", ");
+	return `You are describing a web page screenshot for a first-time visitor forming a 5-second impression.
+The page's niche is: "${niche}". Known keywords: ${niceKeywords}.
 
-Respond with ONLY a JSON object (no prose, no markdown fences) matching this exact shape:
-{
-  "summary": "one sentence: what kind of page this is",
-  "whatItsAbout": "2-3 sentences: what the page is offering/selling/communicating",
-  "primaryAction": "the single most obvious action a new visitor would take",
-  "impressions": ["1-5 short bullet phrases of gut reactions: tone, trust, clarity, novelty"]
-}`;
+In plain prose, cover:
+- What kind of page this looks like at a glance.
+- What it appears to be offering, selling, or communicating.
+- The single most obvious action a new visitor would take.
+- 3 to 5 short gut reactions about tone, trust, clarity, and novelty.
+
+Be concrete and specific about what is actually visible on the page. Do not invent details. Do not use JSON or markdown.`;
+}
+
+const STRUCTURE_SYSTEM_PROMPT = `You convert a plain-prose description of a web page's 5-second impression into a strict JSON object.
+
+Rules:
+- "summary": one sentence describing what kind of page this is.
+- "whatItsAbout": 2-3 sentences on what the page is offering/selling/communicating.
+- "primaryAction": the single most obvious action a new visitor would take.
+- "impressions": 1 to 5 short bullet phrases — gut reactions about tone, trust, clarity, novelty.
+
+Use only information present in the description. Do not invent details.`;
 
 export async function runFiveSecTest(
 	{ url }: ModuleRunInput,
-	{ browser, ai, step }: ModuleRunContext,
+	{ browser, ai, prerequisites, step }: ModuleRunContext,
 ): Promise<FiveSecTestResult> {
+	const intel = prerequisites.get(PAGE_INTELLIGENCE_PREREQ_TYPE, pageIntelligenceResultSchema);
+	const visionPrompt = buildVisionPrompt(intel.niche, intel.keywords);
+
 	const screenshotB64 = await step.do("screenshot", async () => {
 		const bytes = await browser.screenshot(url);
 		return uint8ToBase64(bytes);
 	});
 
-	const raw = await step.do("vision-describe", () =>
-		ai.visionDescribe(base64ToUint8(screenshotB64), FIVE_SEC_PROMPT),
+	const description = await step.do("vision-describe", () =>
+		ai.visionDescribe(base64ToUint8(screenshotB64), visionPrompt),
 	);
 
-	return await step.do("parse-result", async () => parseStructuredDescription(raw));
-}
-
-function parseStructuredDescription(text: string): FiveSecTestResult {
-	const start = text.indexOf("{");
-	const end = text.lastIndexOf("}");
-	if (start === -1 || end === -1 || end <= start) {
-		throw new Error("Vision model response did not contain a JSON object");
-	}
-	const json = text.slice(start, end + 1);
-	const parsed: unknown = JSON.parse(json);
-	return fiveSecTestResultSchema.parse(parsed);
+	return await step.do("structure-result", () =>
+		ai.extractStructured(STRUCTURE_SYSTEM_PROMPT, description, fiveSecTestResultSchema, {
+			schemaName: "five_sec_test_result",
+		}),
+	);
 }
 
 function uint8ToBase64(bytes: Uint8Array): string {

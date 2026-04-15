@@ -1,4 +1,10 @@
-export const moduleRunStatusValues = ['pending', 'running', 'completed', 'failed'] as const;
+export const moduleRunStatusValues = [
+	'pending',
+	'awaiting_prerequisites',
+	'running',
+	'completed',
+	'failed'
+] as const;
 export type ModuleRunStatus = (typeof moduleRunStatusValues)[number];
 
 export interface ModuleRunResponse {

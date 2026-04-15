@@ -37,6 +37,11 @@
 			"name": "module-run",
 			"binding": "MODULE_RUN_WF",
 			"class_name": "ModuleRunWorkflow"
+		},
+		{
+			"name": "prerequisite-run",
+			"binding": "PREREQUISITE_RUN_WF",
+			"class_name": "PrerequisiteRunWorkflow"
 		}
 	],
 	"vars": {
@@ -44,7 +49,10 @@
 		// Optional Google PageSpeed Insights API key. Leave blank for anonymous
 		// quota (limited) or override with `wrangler secret put PAGESPEED_API_KEY`
 		// in production for higher quota.
-		"PAGESPEED_API_KEY": ""
+		"PAGESPEED_API_KEY": "",
+		// Firecrawl API key for the page_scrape prerequisite. Set in production
+		// with `wrangler secret put FIRECRAWL_API_KEY`.
+		"FIRECRAWL_API_KEY": ""
 	}
 	/**
 	 * Smart Placement

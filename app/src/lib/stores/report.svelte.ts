@@ -67,7 +67,10 @@ export class ReportState {
 
 	#scheduleNextPollIfNeeded(): void {
 		if (!this.report || !this.#currentId) return;
-		const statuses = this.report.moduleRuns.map((m) => m.status);
+		const statuses = [
+			...this.report.moduleRuns.map((m) => m.status),
+			...this.report.prerequisites.map((p) => p.status)
+		];
 		if (allTerminal(statuses)) return;
 
 		this.#pollTimer = setTimeout(() => {

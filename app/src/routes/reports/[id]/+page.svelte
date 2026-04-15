@@ -9,6 +9,7 @@
 	import Skeleton from '$lib/components/ui/Skeleton.svelte';
 	import ReportHeader from '$lib/features/report-view/ReportHeader.svelte';
 	import ModuleList from '$lib/features/report-view/ModuleList.svelte';
+	import PrerequisiteList from '$lib/features/report-view/PrerequisiteList.svelte';
 	import { ReportState } from '$lib/stores';
 	import { ArrowLeft, WarningCircle } from 'phosphor-svelte';
 
@@ -47,6 +48,7 @@
 	{:else if state.report}
 		<div class="space-y-8">
 			<ReportHeader report={state.report} />
+			<PrerequisiteList prerequisites={state.report.prerequisites} />
 			<ModuleList runs={state.report.moduleRuns} />
 		</div>
 	{/if}

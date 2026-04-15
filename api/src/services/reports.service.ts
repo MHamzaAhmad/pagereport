@@ -2,11 +2,15 @@ import type { CreateReportInput, ReportResponse, ReportWithModulesResponse } fro
 import type { Report } from "@/domain/models";
 import type { ReportsRepo } from "@/repos";
 import type { ModulesService } from "@/services/modules.service";
+import type { PrerequisitesService } from "@/services/prerequisites.service";
+import type { ReportOrchestratorService } from "@/services/report-orchestrator.service";
 
 export class ReportsService {
 	constructor(
 		private readonly repo: ReportsRepo,
 		private readonly modulesService: ModulesService,
+		private readonly prerequisitesService: PrerequisitesService,
+		private readonly orchestrator: ReportOrchestratorService,
 	) {}
 
 	async create(input: CreateReportInput): Promise<ReportWithModulesResponse> {
@@ -15,20 +19,25 @@ export class ReportsService {
 			url: input.url,
 			createdAt: new Date(),
 		});
-		const runs = await this.modulesService.startAllForReport(report.id, report.url);
-		return {
-			...this.toResponse(report),
-			moduleRuns: runs.map((run) => this.modulesService.toResponse(run)),
-		};
+		await this.orchestrator.kickoffReport(report.id, report.url);
+		return this.buildResponse(report);
 	}
 
 	async getById(id: string): Promise<ReportWithModulesResponse | null> {
 		const report = await this.repo.findById(id);
 		if (!report) return null;
-		const runs = await this.modulesService.listByReport(id);
+		return this.buildResponse(report);
+	}
+
+	private async buildResponse(report: Report): Promise<ReportWithModulesResponse> {
+		const [moduleRuns, prerequisiteRuns] = await Promise.all([
+			this.modulesService.listByReport(report.id),
+			this.prerequisitesService.listByReport(report.id),
+		]);
 		return {
 			...this.toResponse(report),
-			moduleRuns: runs.map((run) => this.modulesService.toResponse(run)),
+			moduleRuns: moduleRuns.map((run) => this.modulesService.toResponse(run)),
+			prerequisites: prerequisiteRuns.map((run) => this.prerequisitesService.toResponse(run)),
 		};
 	}
 
